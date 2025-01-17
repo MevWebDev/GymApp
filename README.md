@@ -1,3 +1,3 @@
-#Szymon Grysiewicz
+# Szymon Grysiewicz
 
-##Gym Tracker
+## Gym Tracker
