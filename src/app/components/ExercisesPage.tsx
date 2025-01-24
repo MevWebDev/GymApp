@@ -1,11 +1,13 @@
 "use client";
 
-import { Box, Typography } from "@mui/material";
-import Link from "next/link";
+import { Box, Typography, Input, InputAdornment } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
+import ExerciseCard from "./ExerciseCard";
 
 interface Exercise {
-  id: string;
+  id: number;
   name: string;
   bodyPart: string;
   target: string;
@@ -47,14 +49,28 @@ export default function ExercisesPage() {
   }, [search]); // Trigger whenever `search` changes
 
   return (
-    <Box className="bg-white text-black">
+    <Box
+      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
       <Typography>Search Exercises</Typography>
-      <input
+      <Input
         type="text"
         placeholder="Search by name, body part, or target..."
         value={search}
+        disableUnderline
         onChange={(e) => setSearch(e.target.value)}
-        style={{ width: "100%", padding: "10px", marginBottom: "20px" }}
+        startAdornment={
+          <InputAdornment position="start">
+            <SearchIcon />
+          </InputAdornment>
+        }
+        sx={{
+          borderRadius: 12,
+          border: "1px solid #ccc",
+          p: 2,
+          width: { xs: "80%", md: "50%" },
+          mx: "auto",
+        }}
       />
 
       {loading && <Typography>Loading...</Typography>}
@@ -63,19 +79,13 @@ export default function ExercisesPage() {
         <Typography>No exercises found</Typography>
       )}
 
-      <ul>
-        {exercises.map((exercise) => (
-          <Link href={`/exercises/${exercise.id}`} key={exercise.id}>
-            <li key={exercise.id}>
-              <Typography>{exercise.name}</Typography>
-              <Typography>Body Part: {exercise.bodyPart}</Typography>
-              <Typography>Target: {exercise.target}</Typography>
-              <Typography>Equipment: {exercise.equipment}</Typography>
-              <img src={exercise.gifUrl} alt={exercise.name} width="150" />
-            </li>
-          </Link>
+      <Grid container spacing={2} justifyContent={"center"} sx={{ mt: 4 }}>
+        {exercises.slice(0, 12).map((exercise: Exercise) => (
+          <Grid key={exercise.id} xs={12} sm={6} md={4} lg={3}>
+            <ExerciseCard exercise={exercise} />
+          </Grid>
         ))}
-      </ul>
+      </Grid>
     </Box>
   );
 }
