@@ -38,6 +38,7 @@ export default function ExercisePage() {
 
   return (
     <Container maxWidth={false}>
+      <img src={exercise.gifUrl} alt={exercise.name} />
       <Typography variant="h4">{exercise.name}</Typography>
       <Typography variant="body1">Body Part: {exercise.bodyPart}</Typography>
       <Typography variant="body1">Target: {exercise.target}</Typography>
