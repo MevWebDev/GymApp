@@ -4,15 +4,19 @@ import { createTheme, ThemeOptions, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ReactNode } from "react";
 
+declare module "@mui/material/styles" {}
+
 const themeOptions: ThemeOptions = {
   palette: {
     primary: {
-      main: "#ffffff",
+      main: "#000000",
+      light: "#ccc",
     },
     secondary: {
-      main: "#000000",
+      main: "#FFFFFF",
     },
   },
+
   typography: {
     allVariants: {
       color: "#262626",
