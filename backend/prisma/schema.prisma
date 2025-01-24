@@ -1,98 +1,63 @@
-datasource db {
-  provider = "postgresql" // lub "mysql" / "sqlite" zależnie od Twojej bazy
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-//
-// 1. Użytkownik (User)
-//
-model User {
-  id        Int    @id @default(autoincrement())
-  nick      String
-  followers Int    @default(0)
-
-  // Lista planów treningowych stworzonych przez użytkownika
-  workoutPlans WorkoutPlan[]
-
-  // Lista ostatnich (ukończonych) treningów
-  lastWorkouts CompletedWorkout[]
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
+model User {
+  id           Int                @id @default(autoincrement())
+  nick         String
+  followers    Int                @default(0)
+  lastWorkouts CompletedWorkout[]
+  workoutPlans WorkoutPlan[]
+}
 
 model Exercise {
-  id        Int    @id 
-  bodyPart  String
-  equipment String
-  gifUrl    String
-  name      String
-  target    String
-
-
-  planItems                WorkoutPlanExercise[]
+  id                       Int                   @id
+  name                     String
+  bodyPart                 String
+  equipment                String
+  gifUrl                   String
+  target                   String
   CompletedWorkoutExercise CompletedWorkoutExercise[]
+  planItems                WorkoutPlanExercise[]
 }
 
-//
-// 3. Plan treningowy (WorkoutPlan)
-//   - Zawiera tytuł, opcjonalny opis i listę zaplanowanych ćwiczeń + powtórzeń
-//
 model WorkoutPlan {
-  id          Int     @id @default(autoincrement())
-  title       String // tytuł planu (np. "Plan na brzuch")
-  description String? // opis planu
-
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
-
-  exercises WorkoutPlanExercise[]
+  id          Int                   @id @default(autoincrement())
+  title       String
+  description String?
+  userId      Int
+  user        User                  @relation(fields: [userId], references: [id])
+  exercises   WorkoutPlanExercise[]
 }
-
 
 model WorkoutPlanExercise {
-  id   Int @id @default(autoincrement())
-  reps Int @default(10) // domyślna liczba powtórzeń w planie
-
-  // Powiązanie z WorkoutPlan
+  id            Int         @id @default(autoincrement())
+  reps          Int         @default(10)
   workoutPlanId Int
+  exerciseId    Int
+  exercise      Exercise    @relation(fields: [exerciseId], references: [id])
   workoutPlan   WorkoutPlan @relation(fields: [workoutPlanId], references: [id])
-
-  // Powiązanie z Exercise
-  exerciseId Int
-  exercise   Exercise @relation(fields: [exerciseId], references: [id])
 }
 
-//
-// 5. Ostatnie treningi (CompletedWorkout)
-//   - Reprezentuje ukończony trening użytkownika (może zawierać wiele ćwiczeń, każde z inną liczbą powtórzeń i ciężarem)
-//
 model CompletedWorkout {
-  id     Int      @id @default(autoincrement())
-  userId Int
-  user   User     @relation(fields: [userId], references: [id])
-  date   DateTime @default(now())
-
-  // Lista ćwiczeń wykonanych w ramach tego treningu, z reps i weight
+  id                 Int                        @id @default(autoincrement())
+  userId             Int
+  date               DateTime                   @default(now())
+  user               User                       @relation(fields: [userId], references: [id])
   completedExercises CompletedWorkoutExercise[]
 }
 
-//
-// 6. Tabela łącząca do "ostatnich treningów" (CompletedWorkoutExercise)
-//   - Dla każdego ukończonego treningu przechowuje ćwiczenie + faktycznie wykonane powtórzenia i ciężar
-//
 model CompletedWorkoutExercise {
-  id     Int    @id @default(autoincrement())
-  reps   Int // faktycznie wykonana liczba powtórzeń
-  weight Float? // faktycznie użyty ciężar (opcjonalnie, bo np. niektóre ćwiczenia nie mają ciężaru)
-
-  // Powiązanie z CompletedWorkout
+  id                 Int              @id @default(autoincrement())
+  reps               Int
+  weight             Float?
   completedWorkoutId Int
+  exerciseId         Int
   completedWorkout   CompletedWorkout @relation(fields: [completedWorkoutId], references: [id])
-
-  // Powiązanie z Exercise
-  exerciseId Int
-  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  exercise           Exercise         @relation(fields: [exerciseId], references: [id])
 }

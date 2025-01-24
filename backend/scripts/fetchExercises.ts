@@ -1,14 +1,6 @@
 import axios from "axios";
 import prisma from "../prisma/prisma"; // ścieżka do Twojego klienta Prisma
-
-type Exercise = {
-  id: string;
-  bodyPart: string;
-  equipment: string;
-  gifUrl: string;
-  name: string;
-  target: string;
-};
+import { Exercise } from "../../src/app/types";
 
 async function importExercises() {
   try {

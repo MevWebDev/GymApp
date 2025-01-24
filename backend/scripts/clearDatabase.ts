@@ -1,8 +1,10 @@
 import prisma from "../prisma/prisma";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 async function clearDatabase() {
   try {
-    // Usuń wszystkie dane z tabeli Exercise
     await prisma.exercise.deleteMany();
     console.log("Wyczyszczono tabelę Exercise.");
   } catch (error) {
