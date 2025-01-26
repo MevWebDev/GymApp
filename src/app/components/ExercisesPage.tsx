@@ -4,16 +4,9 @@ import { Box, Typography, Input, InputAdornment } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
+import axios from "axios";
 import ExerciseCard from "./ExerciseCard";
-
-interface Exercise {
-  id: number;
-  name: string;
-  bodyPart: string;
-  target: string;
-  equipment: string;
-  gifUrl: string;
-}
+import { Exercise } from "../../../backend/types";
 
 export default function ExercisesPage() {
   const [search, setSearch] = useState("");
@@ -24,35 +17,38 @@ export default function ExercisesPage() {
     const fetchExercises = async () => {
       setLoading(true);
       try {
-        const res = await fetch(
-          `http://localhost:3001/api/exercises?search=${search}`
+        const response = await axios.get(
+          `http://localhost:3001/api/exercises`,
+          {
+            params: { search }, // Axios handles query parameters like this
+          }
         );
-        if (res.ok) {
-          const data = await res.json();
-          setExercises(data);
-        } else {
-          console.error("Failed to fetch exercises");
-        }
+        setExercises(response.data); // Response data comes directly in `data`
       } catch (err) {
-        console.error("Error:", err);
+        console.error("Error fetching exercises:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    // Fetch exercises after user stops typing (debouncing)
     const debounceTimeout = setTimeout(() => {
       fetchExercises();
-    }, 300); // 300ms delay
+    }, 300);
 
     return () => clearTimeout(debounceTimeout);
-  }, [search]); // Trigger whenever `search` changes
+  }, [search]);
 
   return (
     <Box
-      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
     >
-      <Typography>Search Exercises</Typography>
+      <Typography sx={{ my: 2 }} variant="h1">
+        Search Exercises
+      </Typography>
       <Input
         type="text"
         placeholder="Search by name, body part, or target..."
@@ -79,9 +75,14 @@ export default function ExercisesPage() {
         <Typography>No exercises found</Typography>
       )}
 
-      <Grid container spacing={2} justifyContent={"center"} sx={{ mt: 4 }}>
+      <Grid
+        container
+        spacing={2}
+        justifyContent={"center"}
+        sx={{ mt: 4, width: "70%" }}
+      >
         {exercises.slice(0, 12).map((exercise: Exercise) => (
-          <Grid key={exercise.id} xs={12} sm={6} md={4} lg={3}>
+          <Grid key={exercise.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
             <ExerciseCard exercise={exercise} />
           </Grid>
         ))}

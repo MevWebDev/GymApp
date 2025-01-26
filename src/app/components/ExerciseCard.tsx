@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { Exercise } from "../types";
+import { Exercise } from "../../../backend/types";
 import Link from "next/link";
 
 export default function ExerciseCard({ exercise }: { exercise: Exercise }) {
@@ -13,7 +13,6 @@ export default function ExerciseCard({ exercise }: { exercise: Exercise }) {
           borderColor: "primary.light",
           borderRadius: 4,
           p: 4,
-          maxWidth: 400,
           textOverflow: "ellipsis",
           height: "100%",
         }}

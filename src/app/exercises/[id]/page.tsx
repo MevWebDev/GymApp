@@ -2,7 +2,7 @@
 import { Container, Typography } from "@mui/material";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Exercise } from "../../types";
+import { Exercise } from "../../../../backend/types";
 
 export default function ExercisePage() {
   const { id } = useParams();

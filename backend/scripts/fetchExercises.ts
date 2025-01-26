@@ -1,6 +1,6 @@
 import axios from "axios";
 import prisma from "../prisma/prisma"; // ścieżka do Twojego klienta Prisma
-import { Exercise } from "../../src/app/types";
+import { Exercise } from "@prisma/client";
 
 async function importExercises() {
   try {
