@@ -14,6 +14,9 @@
     "@hookform/resolvers": "^3.10.0",
     "@mui/icons-material": "^6.4.1",
     "@mui/material": "^6.4.1",
+    "@mui/types": "^7.2.21",
+    "@types/express": "^5.0.0",
+    "axios": "^1.7.9",
     "formik": "^2.4.6",
     "mqtt": "^5.10.3",
     "next": "15.1.5",
@@ -24,6 +27,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/cors": "^2.8.17",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
