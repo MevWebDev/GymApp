@@ -1,6 +1,5 @@
-import prisma from "../prisma/prisma"; // Adjust the path to your Prisma client
+import prisma from "../prisma/prisma";
 import axios from "axios";
-import cron from "node-cron";
 
 export default async function updateGifUrls() {
   console.log("Updating exercise GIF URLs...");
@@ -34,3 +33,4 @@ export default async function updateGifUrls() {
     await prisma.$disconnect(); // Close the Prisma connection
   }
 }
+updateGifUrls();
