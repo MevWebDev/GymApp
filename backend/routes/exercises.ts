@@ -1,28 +1,24 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import prisma from "../prisma/prisma";
 import updateGifUrls from "../scripts/updateGifs";
 
 const router = Router();
 
-// Middleware to optionally update GIFs
-async function tryUpdateGifUrls() {
+setInterval(async () => {
+  console.log("Running the GIF update job...");
   try {
-    console.log("Updating GIF URLs...");
     await updateGifUrls();
-    console.log("GIF URLs updated successfully.");
+    console.log("GIF update job completed successfully.");
   } catch (error) {
-    console.error("Error updating GIF URLs:", error.message);
+    if (error instanceof Error) {
+      console.error("Error during GIF update job:", error.message);
+    }
   }
-}
+}, 3600 * 1000);
 
-// Fetch all exercises or search by name, bodyPart, or target
-router.get("/", async (req, res) => {
-  // Call GIF update outside the main logic to avoid blocking the response
-  tryUpdateGifUrls();
-
+router.get("/", async (req: Request, res: Response): Promise<void> => {
   try {
     const { search } = req.query;
-    console.log("Search:", search);
 
     if (search) {
       const exercises = await prisma.exercise.findMany({
@@ -35,36 +31,33 @@ router.get("/", async (req, res) => {
         },
         orderBy: { name: "asc" },
       });
-      console.log("Found exercises:", exercises);
-      return res.json(exercises);
+      res.json(exercises);
+      return;
     }
 
-    // Fetch all exercises
     const allExercises = await prisma.exercise.findMany({
       orderBy: { name: "asc" },
     });
-
     res.json(allExercises);
   } catch (error) {
     console.error("Error fetching exercises:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: error.message });
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    console.log("Fetching exercise by ID:", id);
 
     const exercise = await prisma.exercise.findUnique({
       where: { id: Number(id) },
     });
 
     if (!exercise) {
-      return res.status(404).json({ error: "Exercise not found" });
+      res.status(404).json({ error: "Exercise not found" });
+      return;
     }
 
-    console.log("Found exercise:", exercise);
     res.json(exercise);
   } catch (error) {
     console.error("Error fetching exercise by ID:", error);

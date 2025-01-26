@@ -1,5 +1,7 @@
 import express from "express";
 import exerciseRouter from "./routes/exercises";
+import workoutRouter from "./routes/workouts";
+import userRouter from "./routes/users";
 import cors from "cors";
 
 const app = express();
@@ -8,6 +10,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/exercises", exerciseRouter);
+app.use("/api/workouts", workoutRouter);
+app.use("/api/users", userRouter);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
