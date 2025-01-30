@@ -10,7 +10,7 @@ const themeOptions: ThemeOptions = {
   palette: {
     primary: {
       main: "#000000",
-      light: "#ccc",
+      light: "#DDDDDD",
     },
     secondary: {
       main: "#FFFFFF",

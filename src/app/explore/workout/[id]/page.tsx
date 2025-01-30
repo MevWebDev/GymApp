@@ -2,7 +2,7 @@
 import { Container, Typography, Box } from "@mui/material";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { fullWorkoutPlan } from "../../../../backend/types";
+import { fullWorkoutPlan } from "../../../../../backend/types";
 
 export default function ExercisePage() {
   const { id } = useParams();

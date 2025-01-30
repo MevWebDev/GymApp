@@ -49,7 +49,7 @@ export default function ButtonAppBar() {
           </Typography>
           <FitnessCenterIcon sx={{ display: { xs: "block", md: "none" } }} />
         </Link>
-        <Link href="/explore">
+        <Link href="/explore/workouts">
           <Typography
             sx={{ display: { xs: "none", md: "block" } }}
             variant="h6"

@@ -23,14 +23,12 @@ export default function ExerciseCard({ exercise }: { exercise: Exercise }) {
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
+            fontWeight: "bold",
           }}
           variant="h6"
         >
           {exercise.name}
         </Typography>
-        <Typography>{exercise.bodyPart}</Typography>
-        <Typography>{exercise.target}</Typography>
-        <Typography>{exercise.equipment}</Typography>
       </Box>
     </Link>
   );

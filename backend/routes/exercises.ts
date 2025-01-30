@@ -16,12 +16,66 @@ setInterval(async () => {
   }
 }, 3600 * 1000);
 
+// Backup Fake Exercises (fallback data)
+const backupExercises = [
+  {
+    id: 1,
+    name: "Bench Press",
+    bodyPart: "Chest",
+    target: "Pectorals",
+    equipment: "Barbell",
+    gifUrl: "https://v2.exercisedb.io/image/BXrZhlUNxPHhOy",
+  },
+  {
+    id: 2,
+    name: "Pull up",
+    bodyPart: "Back",
+    target: "Lats",
+    equipment: "Body weight",
+    gifUrl: "https://v2.exercisedb.io/image/ofWCs7IGMXGqo3",
+  },
+  {
+    id: 3,
+    name: "Bicep Curl",
+    bodyPart: "Arms",
+    target: "Biceps",
+    equipment: "Dumbbells",
+    gifUrl: "https://v2.exercisedb.io/image/fk7AdkyPnl2YPr",
+  },
+  {
+    id: 4,
+    name: "Cable lateral raise",
+    bodyPart: "Shoulders",
+    target: "Deltoids",
+    equipment: "Cable",
+    gifUrl: "https://v2.exercisedb.io/image/10Q3MQWiqlAb-y",
+  },
+  {
+    id: 5,
+    name: "Deadlift",
+    bodyPart: "Upper legs",
+    target: "Glutes",
+    equipment: "Barbell",
+    gifUrl: "https://v2.exercisedb.io/image/RSlXN4NDtfoTah",
+  },
+  {
+    id: 6,
+    name: "Cable kneeling crunch",
+    bodyPart: "Core",
+    target: "Abdominals",
+    equipment: "Cable",
+    gifUrl: "https://v2.exercisedb.io/image/CkgicLze48lmRC",
+  },
+];
+
 router.get("/", async (req: Request, res: Response): Promise<void> => {
   try {
     const { search } = req.query;
 
+    let exercises;
+
     if (search) {
-      const exercises = await prisma.exercise.findMany({
+      exercises = await prisma.exercise.findMany({
         where: {
           OR: [
             { name: { contains: String(search), mode: "insensitive" } },
@@ -31,20 +85,26 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
         },
         orderBy: { name: "asc" },
       });
-      res.json(exercises);
+    } else {
+      exercises = await prisma.exercise.findMany({
+        orderBy: { name: "asc" },
+      });
+    }
+
+    if (exercises.length === 0) {
+      console.warn("No exercises found, using fallback data.");
+      res.json(backupExercises);
       return;
     }
 
-    const allExercises = await prisma.exercise.findMany({
-      orderBy: { name: "asc" },
-    });
-    res.json(allExercises);
+    res.json(exercises);
   } catch (error) {
-    console.error("Error fetching exercises:", error);
-    res.status(500).json({ error: error.message });
+    console.error("Error fetching exercises, returning backup data:", error);
+    res.json(backupExercises);
   }
 });
 
+// Fetch exercise by ID
 router.get("/:id", async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;

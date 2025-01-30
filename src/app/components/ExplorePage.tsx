@@ -1,23 +1,30 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { Box, Typography, Input, InputAdornment, Button } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import WorkoutCard from "./WorkoutCard";
-import { fullWorkoutPlan, User } from "../../../backend/types";
 import UserCard from "./UserCard";
+import { fullWorkoutPlan, User } from "../../../backend/types";
+import Link from "next/link";
 
-export default function ExercisesPage() {
+export default function ExplorePage() {
+  const pathname = usePathname();
+  const view = pathname.split("/").pop();
+
   const [search, setSearch] = useState("");
-  const [view, setTypes] = useState<"workouts" | "users">("workouts");
   const [users, setUsers] = useState<User[]>([]);
   const [workouts, setWorkouts] = useState<fullWorkoutPlan[]>([]);
   const [loading, setLoading] = useState(false);
+  console.log(view);
 
   useEffect(() => {
-    const fetchExercises = async () => {
+    if (!view) return;
+
+    const fetchData = async () => {
       setLoading(true);
       try {
         const response = await axios.get(`http://localhost:3001/api/${view}`, {
@@ -26,29 +33,38 @@ export default function ExercisesPage() {
         if (view === "users") setUsers(response.data);
         else setWorkouts(response.data);
       } catch (err) {
-        console.error("Error fetching exercises:", err);
+        console.error("Error fetching data:", err);
       } finally {
         setLoading(false);
       }
     };
 
     const debounceTimeout = setTimeout(() => {
-      fetchExercises();
+      fetchData();
     }, 300);
 
     return () => clearTimeout(debounceTimeout);
   }, [search, view]);
-  console.log(workouts);
+
+  if (view !== "users" && view !== "workouts") {
+    return <Typography>Invalid page</Typography>;
+  }
 
   return (
     <Box
-      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        mt: 4,
+      }}
     >
       <Typography variant="h1" sx={{ my: 2, textAlign: "center" }}>
-        Let us find
-        <span className="text-blue-400"> {view}</span> <br />
-        you are looking for
+        Let us find{" "}
+        <span style={{ color: "#2196F3" }}>{view.slice(0, -1)}</span> you are
+        looking for
       </Typography>
+
       <Input
         type="text"
         placeholder={`Search for ${view}`}
@@ -69,34 +85,40 @@ export default function ExercisesPage() {
         }}
       />
       <Box sx={{ mt: 2, display: "flex", gap: 1 }}>
-        <Button
-          sx={{
-            bgcolor: view == "workouts" ? "black" : "white",
-            color: view == "workouts" ? "white" : "black",
-            borderRadius: 3,
-            fontSize: 12,
-          }}
-          onClick={() => setTypes("workouts")}
-        >
-          Workouts
-        </Button>
-        <Button
-          sx={{
-            bgcolor: view == "workouts" ? "white" : "black",
-            color: view == "workouts" ? "black" : "white",
-            borderRadius: 3,
-            fontSize: 12,
-          }}
-          onClick={() => setTypes("users")}
-        >
-          Users
-        </Button>
+        <Link href="/explore/workouts">
+          <Button
+            sx={{
+              bgcolor: view == "workouts" ? "black" : "white",
+              color: view == "workouts" ? "white" : "black",
+              borderRadius: 3,
+              fontSize: 12,
+            }}
+          >
+            Workouts
+          </Button>
+        </Link>
+        <Link href="/explore/users">
+          <Button
+            sx={{
+              bgcolor: view == "workouts" ? "white" : "black",
+              color: view == "workouts" ? "black" : "white",
+              borderRadius: 3,
+              fontSize: 12,
+            }}
+          >
+            Users
+          </Button>
+        </Link>
       </Box>
 
       {loading && <Typography>Loading...</Typography>}
 
-      {!loading && workouts.length === 0 && search && (
-        <Typography>No exercises found</Typography>
+      {!loading && view === "workouts" && workouts.length === 0 && search && (
+        <Typography>No workouts found</Typography>
+      )}
+
+      {!loading && view === "users" && users.length === 0 && search && (
+        <Typography>No users found</Typography>
       )}
 
       <Grid container spacing={2} justifyContent={"center"} sx={{ mt: 4 }}>
