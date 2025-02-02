@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ThemeRegistry from "./ThemeRegistry";
 import Navbar from "./components/Navbar";
+import { AuthProvider } from "./contexts/AuthContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,8 +19,10 @@ export default function RootLayout({
     <html lang="en">
       <ThemeRegistry>
         <body className={`antialiased`}>
-          <Navbar />
-          {children}
+          <AuthProvider>
+            <Navbar />
+            {children}
+          </AuthProvider>
         </body>
       </ThemeRegistry>
     </html>
