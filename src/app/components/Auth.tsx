@@ -6,6 +6,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import { useRouter } from "next/navigation";
 
 import {
   TextField,
@@ -19,6 +20,7 @@ import {
   Alert,
   Link,
 } from "@mui/material";
+import router from "../../../backend/routes/exercises";
 
 const signUpSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -32,6 +34,7 @@ const loginSchema = z.object({
 });
 
 const AuthComponent = () => {
+  const router = useRouter();
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -56,16 +59,14 @@ const AuthComponent = () => {
     onSubmit: async (values) => {
       if (authMode === "register") {
         try {
-          // Register the user with Supabase
           const { data, error } = await supabase.auth.signUp({
             email: values.email,
             password: values.password,
           });
           if (error) throw error;
 
-          // Check if the user already exists in your backend
           const response = await axios.get("http://localhost:3001/api/users", {
-            params: { email: values.email },
+            params: { id: data?.user?.id },
           });
 
           if (response.data && response.data.user) {
@@ -73,8 +74,9 @@ const AuthComponent = () => {
           } else {
             // Create the user record in your backend
             await axios.post("http://localhost:3001/api/users/create", {
-              email: values.email,
+              id: data?.user?.id,
               nick: values.nick,
+              email: values.email,
             });
             showSnackbar(
               "Account created successfully! Check your email to verify.",
@@ -93,6 +95,7 @@ const AuthComponent = () => {
           });
           if (error) throw error;
           showSnackbar("Logged in successfully!", "success");
+          router.push("/");
         } catch (err: any) {
           showSnackbar(err.message, "error");
         }
