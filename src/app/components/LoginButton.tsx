@@ -1,13 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation"; // If you're using Next.js pages directory. For app directory, use 'next/navigation'
-import { Avatar, Button, Menu, MenuItem } from "@mui/material";
+import { useRouter } from "next/navigation";
+import {
+  Avatar,
+  Button,
+  Menu,
+  MenuItem,
+  CircularProgress,
+} from "@mui/material";
 import { useAuth } from "../contexts/AuthContext"; // Adjust the import path as needed
 import { supabase } from "../../../backend/auth/supabaseClient"; // Adjust path accordingly
 
 const LoginButton = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -30,6 +36,12 @@ const LoginButton = () => {
     handleClose();
   };
 
+  // While the authentication state is loading, show a spinner
+  if (loading) {
+    return <CircularProgress size={24} />;
+  }
+
+  // If no user is logged in, show the Login button
   if (!user) {
     return (
       <Button
@@ -42,6 +54,7 @@ const LoginButton = () => {
     );
   }
 
+  // When the user is logged in, display their avatar with a dropdown menu
   return (
     <>
       <Avatar

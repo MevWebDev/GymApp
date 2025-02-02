@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { Button, Box } from "@mui/material";
+import { Box } from "@mui/material";
 
 import Link from "next/link";
 import HomeIcon from "@mui/icons-material/Home";
@@ -8,7 +8,7 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import ExploreIcon from "@mui/icons-material/Explore";
 import BackupTableIcon from "@mui/icons-material/BackupTable";
 import AnimatedHoverText from "./AnimatedHoverText";
-import { useAuth } from "../contexts/AuthContext";
+
 import LoginButton from "./LoginButton";
 
 const linkStyles = {
@@ -20,8 +20,6 @@ const iconStyles = {
 };
 
 export default function Navbar() {
-  const { user, loading } = useAuth();
-
   return (
     <Box
       sx={{
