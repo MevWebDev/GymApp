@@ -4,21 +4,20 @@ import Link from "next/link";
 
 export default function UserCard({ user }: { user: User }) {
   return (
-    <Link href={`/explore/${user.id}`} key={user.id}>
+    <Link href={`/explore/users/${user.id}`} key={user.id}>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          border: "1px solid ",
-          borderColor: "primary.light",
-          borderRadius: 4,
+
           p: 4,
-          gap: 1,
+          gap: 0.5,
         }}
       >
         <Box
           sx={{
             aspectRatio: "1/1",
+            borderRadius: 4,
             overflow: "hidden",
             display: "flex",
             alignItems: "center",
@@ -32,8 +31,6 @@ export default function UserCard({ user }: { user: User }) {
           ></img>
         </Box>
         <Typography variant="h3">{user.nick}</Typography>
-
-        <Typography>Follows: {user.followers}</Typography>
       </Box>
     </Link>
   );
