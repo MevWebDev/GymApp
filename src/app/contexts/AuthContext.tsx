@@ -23,7 +23,9 @@ interface AuthProviderProps {
 
 const fetchUserDetails = async (userId: string): Promise<CustomUser | null> => {
   try {
-    const response = await axios.get(`http://localhost:3001/api/users/14`);
+    const response = await axios.get(
+      `http://localhost:3001/api/users/${userId}`
+    );
 
     return response.data;
   } catch (error) {
