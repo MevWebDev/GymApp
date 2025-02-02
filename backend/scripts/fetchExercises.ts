@@ -4,7 +4,6 @@ import { Exercise } from "@prisma/client";
 
 async function importExercises() {
   try {
-    // 1. Pobierz dane z API
     const response = await axios.get(
       "https://exercisedb.p.rapidapi.com/exercises?limit=1000000",
       {

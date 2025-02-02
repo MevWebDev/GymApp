@@ -4,11 +4,10 @@ import axios from "axios";
 export default async function updateGifUrls() {
   console.log("Updating exercise GIF URLs...");
   try {
-    // Step 1: Fetch exercises from the API
     const apiUrl = "https://exercisedb.p.rapidapi.com/exercises?limit=5000";
     const response = await axios.get(apiUrl, {
       headers: {
-        "X-RapidAPI-Key": process.env.RAPIDAPI_KEY, // Replace with your actual API key
+        "X-RapidAPI-Key": process.env.RAPIDAPI_KEY || "",
         "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
       },
     });
