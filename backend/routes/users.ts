@@ -31,7 +31,7 @@ router.get("/:id", async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
 
     const user = await prisma.user.findUnique({
-      where: { id: Number(id) },
+      where: { id: id },
     });
 
     if (!user) {
@@ -53,7 +53,7 @@ router.get(
       const { id } = req.params;
 
       const workoutPlans = await prisma.workoutPlan.findMany({
-        where: { userId: Number(id) },
+        where: { userId: id },
         include: {
           user: true,
           exercises: { include: { exercise: true } },
@@ -75,10 +75,11 @@ router.get(
 
 router.post("/create", async (req: Request, res: Response): Promise<void> => {
   try {
-    const { nick, email } = req.body;
+    const { id, nick, email } = req.body;
 
     const user = await prisma.user.create({
       data: {
+        id,
         nick,
         email,
       },
