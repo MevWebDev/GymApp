@@ -7,9 +7,10 @@ router.post("/", async (req: Request, res: Response): Promise<void> => {
   try {
     const { title, description, image, userId, exercises } = req.body;
 
-    // Validate the input
+    // Validate input
     if (!title || !userId) {
-      return res.status(400).json({ error: "Title and userId are required." });
+      res.status(400).json({ error: "Title and userId are required." });
+      return;
     }
 
     // Create the workout plan
@@ -17,19 +18,17 @@ router.post("/", async (req: Request, res: Response): Promise<void> => {
       data: {
         title,
         description,
-        user: {
-          connect: { id: userId },
-        },
         image,
+        user: { connect: { id: userId } },
       },
     });
 
-    if (exercises && Array.isArray(exercises) && exercises.length > 0) {
+    if (Array.isArray(exercises) && exercises.length > 0) {
       await prisma.workoutPlanExercise.createMany({
         data: exercises.map((exerciseId: number) => ({
           workoutPlanId: workoutPlan.id,
-          exerciseId: exerciseId,
-          reps: 10,
+          exerciseId,
+          reps: 10, // Default reps
         })),
       });
     }
@@ -37,7 +36,8 @@ router.post("/", async (req: Request, res: Response): Promise<void> => {
     const fullWorkoutPlan = await prisma.workoutPlan.findUnique({
       where: { id: workoutPlan.id },
       include: {
-        exercises: { include: { exercise: true } }, // Include exercise details
+        user: true,
+        exercises: { include: { exercise: true } },
       },
     });
 
@@ -50,9 +50,29 @@ router.post("/", async (req: Request, res: Response): Promise<void> => {
 
 router.get("/", async (req: Request, res: Response): Promise<void> => {
   try {
-    const workoutPlans = await prisma.workoutPlan.findMany({
-      include: { user: true, exercises: { include: { exercise: true } } },
-    });
+    const { search } = req.query;
+
+    let workoutPlans;
+
+    if (search) {
+      workoutPlans = await prisma.workoutPlan.findMany({
+        where: {
+          title: { contains: String(search), mode: "insensitive" },
+        },
+        include: {
+          user: true,
+          exercises: { include: { exercise: true } },
+        },
+      });
+    } else {
+      workoutPlans = await prisma.workoutPlan.findMany({
+        include: {
+          user: true,
+          exercises: { include: { exercise: true } },
+        },
+      });
+    }
+
     res.json(workoutPlans);
   } catch (error) {
     console.error("Error fetching workout plans:", error);
@@ -66,7 +86,10 @@ router.get("/:id", async (req: Request, res: Response): Promise<void> => {
 
     const workoutPlan = await prisma.workoutPlan.findUnique({
       where: { id: Number(id) },
-      include: { user: true, exercises: { include: { exercise: true } } },
+      include: {
+        user: true,
+        exercises: { include: { exercise: true } },
+      },
     });
 
     if (!workoutPlan) {
