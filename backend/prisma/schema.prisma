@@ -8,9 +8,9 @@ datasource db {
 }
 
 model User {
-  id           Int                @id @default(autoincrement())
+  id           String               @id
   nick         String
-  email        String              @default("default@email.com")
+  email        String             @unique
   followers    Int                @default(0)
   following    Int                @default(0)
   avatar      String @default("https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg")
@@ -33,7 +33,7 @@ model WorkoutPlan {
   title       String
   description String?
   image       String
-  userId      Int
+  userId      String
   user        User                  @relation(fields: [userId], references: [id])
   exercises   WorkoutPlanExercise[]
 }
