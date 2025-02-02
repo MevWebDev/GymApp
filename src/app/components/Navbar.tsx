@@ -1,14 +1,27 @@
+"use client";
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import { Button, Box } from "@mui/material";
+
 import Link from "next/link";
 import HomeIcon from "@mui/icons-material/Home";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import ExploreIcon from "@mui/icons-material/Explore";
 import BackupTableIcon from "@mui/icons-material/BackupTable";
+import AnimatedHoverText from "./AnimatedHoverText";
+import { useAuth } from "../contexts/AuthContext";
+import LoginButton from "./LoginButton";
 
-export default function ButtonAppBar() {
+const linkStyles = {
+  display: { xs: "none", md: "block" },
+};
+
+const iconStyles = {
+  display: { xs: "block", md: "none" },
+};
+
+export default function Navbar() {
+  const { user, loading } = useAuth();
+
   return (
     <Box
       sx={{
@@ -28,49 +41,25 @@ export default function ButtonAppBar() {
           justifySelf: "flex-end",
         }}
       >
-        <Link href="/home">
-          <Typography
-            sx={{ display: { xs: "none", md: "block" } }}
-            variant="h6"
-            component="div"
-          >
-            Home
-          </Typography>
+        <Link href="/">
+          <AnimatedHoverText style={linkStyles}>Home</AnimatedHoverText>
           <HomeIcon sx={{ display: { xs: "block", md: "none" } }} />
         </Link>
 
         <Link href="/exercises">
-          <Typography
-            sx={{ display: { xs: "none", md: "block" } }}
-            variant="h6"
-            component="div"
-          >
-            Exercises
-          </Typography>
-          <FitnessCenterIcon sx={{ display: { xs: "block", md: "none" } }} />
+          <AnimatedHoverText style={linkStyles}>Exercises</AnimatedHoverText>
+          <FitnessCenterIcon sx={{ ...iconStyles }} />
         </Link>
         <Link href="/explore/workouts">
-          <Typography
-            sx={{ display: { xs: "none", md: "block" } }}
-            variant="h6"
-            component="div"
-          >
-            Explore
-          </Typography>
-          <ExploreIcon sx={{ display: { xs: "block", md: "none" } }} />
+          <AnimatedHoverText style={linkStyles}>Explore</AnimatedHoverText>
+          <ExploreIcon sx={{ ...iconStyles }} />
         </Link>
         <Link href="/library">
-          <Typography
-            sx={{ display: { xs: "none", md: "block" } }}
-            variant="h6"
-            component="div"
-          >
-            Library
-          </Typography>
-          <BackupTableIcon sx={{ display: { xs: "block", md: "none" } }} />
+          <AnimatedHoverText style={linkStyles}>Library</AnimatedHoverText>
+          <BackupTableIcon sx={{ ...iconStyles }} />
         </Link>
       </Box>
-      <Button color="inherit">Login</Button>
+      <LoginButton />
     </Box>
   );
 }
