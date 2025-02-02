@@ -26,4 +26,69 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
   }
 });
 
+router.get("/:id", async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+    const user = await prisma.user.findUnique({
+      where: { id: Number(id) },
+    });
+
+    if (!user) {
+      res.status(404).json({ error: "User not found" });
+      return;
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.get(
+  "/:id/workouts",
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { id } = req.params;
+
+      const workoutPlans = await prisma.workoutPlan.findMany({
+        where: { userId: Number(id) },
+        include: {
+          user: true,
+          exercises: { include: { exercise: true } },
+        },
+      });
+
+      if (!workoutPlans) {
+        res.status(404).json({ error: "User not found" });
+        return;
+      }
+
+      res.json(workoutPlans);
+    } catch (error) {
+      console.error("Error fetching user workouts by ID:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+);
+
+router.post("/create", async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { nick, email } = req.body;
+
+    const user = await prisma.user.create({
+      data: {
+        nick,
+        email,
+      },
+    });
+
+    res.json(user);
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 export default router;
