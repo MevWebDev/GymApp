@@ -1,72 +1,7 @@
 import { Router, Request, Response } from "express";
 import prisma from "../prisma/prisma";
-import updateGifUrls from "../scripts/updateGifs";
 
 const router = Router();
-
-setInterval(async () => {
-  console.log("Running the GIF update job...");
-  try {
-    await updateGifUrls();
-    console.log("GIF update job completed successfully.");
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error("Error during GIF update job:", error.message);
-    }
-  }
-}, 3600 * 1000);
-
-// Backup Fake Exercises (fallback data)
-const backupExercises = [
-  {
-    id: 1,
-    name: "Bench Press",
-    bodyPart: "Chest",
-    target: "Pectorals",
-    equipment: "Barbell",
-    gifUrl: "https://v2.exercisedb.io/image/BXrZhlUNxPHhOy",
-  },
-  {
-    id: 2,
-    name: "Pull up",
-    bodyPart: "Back",
-    target: "Lats",
-    equipment: "Body weight",
-    gifUrl: "https://v2.exercisedb.io/image/ofWCs7IGMXGqo3",
-  },
-  {
-    id: 3,
-    name: "Bicep Curl",
-    bodyPart: "Arms",
-    target: "Biceps",
-    equipment: "Dumbbells",
-    gifUrl: "https://v2.exercisedb.io/image/fk7AdkyPnl2YPr",
-  },
-  {
-    id: 4,
-    name: "Cable lateral raise",
-    bodyPart: "Shoulders",
-    target: "Deltoids",
-    equipment: "Cable",
-    gifUrl: "https://v2.exercisedb.io/image/10Q3MQWiqlAb-y",
-  },
-  {
-    id: 5,
-    name: "Deadlift",
-    bodyPart: "Upper legs",
-    target: "Glutes",
-    equipment: "Barbell",
-    gifUrl: "https://v2.exercisedb.io/image/RSlXN4NDtfoTah",
-  },
-  {
-    id: 6,
-    name: "Cable kneeling crunch",
-    bodyPart: "Core",
-    target: "Abdominals",
-    equipment: "Cable",
-    gifUrl: "https://v2.exercisedb.io/image/CkgicLze48lmRC",
-  },
-];
 
 router.get("/", async (req: Request, res: Response): Promise<void> => {
   try {
@@ -93,14 +28,13 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
 
     if (exercises.length === 0) {
       console.warn("No exercises found, using fallback data.");
-      res.json(backupExercises);
+
       return;
     }
 
     res.json(exercises);
   } catch (error) {
     console.error("Error fetching exercises, returning backup data:", error);
-    res.json(backupExercises);
   }
 });
 
