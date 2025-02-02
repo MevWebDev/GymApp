@@ -10,9 +10,10 @@ datasource db {
 model User {
   id           Int                @id @default(autoincrement())
   nick         String
+  email        String              @default("default@email.com")
   followers    Int                @default(0)
+  following    Int                @default(0)
   avatar      String @default("https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg")
-  lastWorkouts CompletedWorkout[]
   workoutPlans WorkoutPlan[]
 }
 
@@ -39,6 +40,7 @@ model WorkoutPlan {
 
 model WorkoutPlanExercise {
   id            Int         @id @default(autoincrement())
+  sets         Int          @default(3)
   reps          Int         @default(10)
   workoutPlanId Int
   exerciseId    Int
@@ -50,7 +52,6 @@ model CompletedWorkout {
   id                 Int                        @id @default(autoincrement())
   userId             Int
   date               DateTime                   @default(now())
-  user               User                       @relation(fields: [userId], references: [id])
   completedExercises CompletedWorkoutExercise[]
 }
 
