@@ -73,8 +73,6 @@ export default function ExercisePage() {
       </Box>
       <Typography variant="h1">{user.nick}</Typography>
       <Box sx={{ display: "flex", gap: 2 }}>
-        <Typography variant="body1">Workouts: 10</Typography>
-        <Typography>|</Typography>
         <Typography variant="body1">Followers: {user.followers} </Typography>
         <Typography>|</Typography>
         <Typography variant="body1">Following: {user.following}</Typography>
