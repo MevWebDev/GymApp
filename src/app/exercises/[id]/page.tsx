@@ -7,7 +7,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  Button,
 } from "@mui/material";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -16,42 +15,41 @@ import { Exercise } from "../../../../backend/types";
 export default function ExercisePage() {
   const { id } = useParams();
 
-  const fakeExercise = {
-    id: Number(id),
-    name: "Bench Press",
-    bodyPart: "Chest",
-    target: "Pectorals",
-    equipment: "Barbell",
-    gifUrl: "https://v2.exercisedb.io/image/BXrZhlUNxPHhOy",
-  };
+  // const fakeExercise = {
+  //   id: Number(id),
+  //   name: "Bench Press",
+  //   bodyPart: "Chest",
+  //   target: "Pectorals",
+  //   equipment: "Barbell",
+  //   gifUrl: "https://v2.exercisedb.io/img/BXrZhlUNxPHhOy",
+  // };
 
-  // const [exercise, setExercise] = useState<Exercise | null>(null);
-  // setExercise(fakeExercise);
+  const [exercise, setExercise] = useState<Exercise | null>(null);
 
-  // useEffect(() => {
-  //   if (id) {
-  //     console.log(`Fetchinf from URL: http://localhost:3001/exercises/${id}`);
-  //     const fetchExercise = async () => {
-  //       try {
-  //         const response = await fetch(
-  //           `http://localhost:3001/api/exercises/${id}`
-  //         );
-  //         if (!response.ok) {
-  //           throw new Error("Failed to fetch exercise");
-  //         }
-  //         const data = (await response.json()) as Exercise;
-  //         setExercise(data);
-  //         console.log(data);
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     };
+  useEffect(() => {
+    if (id) {
+      console.log(`Fetchinf from URL: http://localhost:3001/exercises/${id}`);
+      const fetchExercise = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:3001/api/exercises/${id}`
+          );
+          if (!response.ok) {
+            throw new Error("Failed to fetch exercise");
+          }
+          const data = (await response.json()) as Exercise;
+          setExercise(data);
+          console.log(data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
 
-  //     fetchExercise();
-  //   }
-  // }, [id]);
+      fetchExercise();
+    }
+  }, [id]);
 
-  if (!fakeExercise) {
+  if (!exercise) {
     return <Typography>Loading...</Typography>;
   }
 
@@ -72,12 +70,12 @@ export default function ExercisePage() {
         }}
       >
         <img
-          src={fakeExercise.gifUrl}
-          alt={fakeExercise.name}
+          src={exercise.gifUrl}
+          alt={exercise.name}
           style={{ width: "100%", objectFit: "cover" }}
         />
       </Box>
-      <Typography variant="h1">{fakeExercise.name}</Typography>
+      <Typography variant="h1">{exercise.name}</Typography>
       <Box
         sx={{
           maxWidth: 600,
@@ -100,21 +98,15 @@ export default function ExercisePage() {
           }}
         >
           <ListItem>
-            <ListItemText
-              primary="Body Part"
-              secondary={fakeExercise.bodyPart}
-            />
+            <ListItemText primary="Body Part" secondary={exercise.bodyPart} />
           </ListItem>
           <ListItem>
-            <ListItemText
-              primary="Equipment"
-              secondary={fakeExercise.equipment}
-            />
+            <ListItemText primary="Equipment" secondary={exercise.equipment} />
           </ListItem>
           <ListItem>
             <ListItemText
               primary="Primary Muscles"
-              secondary={fakeExercise.target}
+              secondary={exercise.target}
             />
           </ListItem>
         </List>
