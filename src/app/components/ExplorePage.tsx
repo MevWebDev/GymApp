@@ -19,7 +19,6 @@ export default function ExplorePage() {
   const [users, setUsers] = useState<User[]>([]);
   const [workouts, setWorkouts] = useState<fullWorkoutPlan[]>([]);
   const [loading, setLoading] = useState(false);
-  console.log(view);
 
   useEffect(() => {
     if (!view) return;
@@ -31,7 +30,7 @@ export default function ExplorePage() {
           params: { search },
         });
         if (view === "users") setUsers(response.data);
-        else setWorkouts(response.data);
+        else if (view === "workouts") setWorkouts(response.data);
       } catch (err) {
         console.error("Error fetching data:", err);
       } finally {
@@ -97,7 +96,7 @@ export default function ExplorePage() {
             Workouts
           </Button>
         </Link>
-        <Link href="/explore/users">
+        <Link href="/explore/users ">
           <Button
             sx={{
               bgcolor: view == "workouts" ? "white" : "black",
@@ -121,11 +120,17 @@ export default function ExplorePage() {
         <Typography>No users found</Typography>
       )}
 
-      <Grid container spacing={2} justifyContent={"center"} sx={{ mt: 4 }}>
+      <Grid
+        container
+        spacing={2}
+        justifyContent={"center"}
+        alignItems={"stretch"}
+        sx={{ mt: 4, width: "70%" }}
+      >
         {view === "workouts" &&
           workouts.slice(0, 12).map((workout: fullWorkoutPlan) => (
             <Grid key={workout.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <WorkoutCard workoutPlan={workout} />
+              <WorkoutCard workoutPlan={workout} ifLink />
             </Grid>
           ))}
 
