@@ -6,7 +6,6 @@ import axios from "axios";
 import { useFormik } from "formik";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { useRouter } from "next/navigation";
 
 import {
   TextField,
@@ -20,7 +19,6 @@ import {
   Alert,
   Link,
 } from "@mui/material";
-import router from "../../../backend/routes/exercises";
 
 const signUpSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -33,9 +31,14 @@ const loginSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
+type Severity = "success" | "error" | "warning" | "info";
+
 const AuthComponent = () => {
-  const router = useRouter();
-  const [snackbar, setSnackbar] = useState({
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean;
+    message: string;
+    severity: Severity;
+  }>({
     open: false,
     message: "",
     severity: "success",
@@ -72,7 +75,6 @@ const AuthComponent = () => {
           if (response.data && response.data.user) {
             showSnackbar("User already exists. Please log in.", "error");
           } else {
-            // Create the user record in your backend
             await axios.post("http://localhost:3001/api/users/create", {
               id: data?.user?.id,
               nick: values.nick,
@@ -87,7 +89,6 @@ const AuthComponent = () => {
           showSnackbar(err.message, "error");
         }
       } else {
-        // Login flow
         try {
           const { error } = await supabase.auth.signInWithPassword({
             email: values.email,
@@ -95,7 +96,6 @@ const AuthComponent = () => {
           });
           if (error) throw error;
           showSnackbar("Logged in successfully!", "success");
-          router.push("/");
         } catch (err: any) {
           showSnackbar(err.message, "error");
         }

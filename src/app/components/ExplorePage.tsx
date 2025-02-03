@@ -129,7 +129,11 @@ export default function ExplorePage() {
       >
         {view === "workouts" &&
           workouts.slice(0, 12).map((workout: fullWorkoutPlan) => (
-            <Grid key={workout.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+            <Grid
+              sx={{ p: 4 }}
+              key={workout.id}
+              size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+            >
               <WorkoutCard workoutPlan={workout} ifLink />
             </Grid>
           ))}

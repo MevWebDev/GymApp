@@ -20,10 +20,10 @@ export default function ExercisesPage() {
         const response = await axios.get(
           `http://localhost:3001/api/exercises`,
           {
-            params: { search }, // Axios handles query parameters like this
+            params: { search },
           }
         );
-        setExercises(response.data); // Response data comes directly in `data`
+        setExercises(response.data);
       } catch (err) {
         console.error("Error fetching exercises:", err);
       } finally {

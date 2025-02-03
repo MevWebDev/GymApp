@@ -15,15 +15,6 @@ import { Exercise } from "../../../../backend/types";
 export default function ExercisePage() {
   const { id } = useParams();
 
-  // const fakeExercise = {
-  //   id: Number(id),
-  //   name: "Bench Press",
-  //   bodyPart: "Chest",
-  //   target: "Pectorals",
-  //   equipment: "Barbell",
-  //   gifUrl: "https://v2.exercisedb.io/img/BXrZhlUNxPHhOy",
-  // };
-
   const [exercise, setExercise] = useState<Exercise | null>(null);
 
   useEffect(() => {
@@ -62,8 +53,6 @@ export default function ExercisePage() {
           justifyContent: "center",
           mx: "auto",
           borderRadius: 4,
-          // border: "1px solid",
-          borderColor: "primary.light",
           overflow: "hidden",
           px: 8,
           my: 4,
