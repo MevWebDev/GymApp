@@ -29,7 +29,7 @@ export default async function updateGifUrls() {
   } catch (error) {
     console.error("Error updating GIF URLs:", error);
   } finally {
-    await prisma.$disconnect(); // Close the Prisma connection
+    await prisma.$disconnect();
   }
 }
 updateGifUrls();

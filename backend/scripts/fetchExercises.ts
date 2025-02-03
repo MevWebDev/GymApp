@@ -1,5 +1,5 @@
 import axios from "axios";
-import prisma from "../prisma/prisma"; // ścieżka do Twojego klienta Prisma
+import prisma from "../prisma/prisma";
 import { Exercise } from "@prisma/client";
 
 async function importExercises() {
@@ -14,12 +14,10 @@ async function importExercises() {
       }
     );
 
-    // Zakładamy, że w `response.data` mamy tablicę obiektów
     const exercises = response.data;
 
     console.log(`Pobrano ćwiczeń: ${exercises.length}`);
 
-    // 2. Zapis do bazy (createMany) z pominięciem duplikatów
     const created = await prisma.exercise.createMany({
       data: exercises.map((ex: Exercise) => ({
         id: Number(ex.id),

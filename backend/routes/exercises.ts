@@ -38,7 +38,6 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-// Fetch exercise by ID
 router.get("/:id", async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
