@@ -1,6 +1,9 @@
 import axios from "axios";
 import prisma from "../prisma/prisma";
 import { Exercise } from "@prisma/client";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 async function importExercises() {
   try {
@@ -8,7 +11,7 @@ async function importExercises() {
       "https://exercisedb.p.rapidapi.com/exercises?limit=1000000",
       {
         headers: {
-          "X-RapidAPI-Key": process.env.RAPIDAPI_KEY || "",
+          "X-RapidAPI-Key": process.env.RAPID_KEY || "",
           "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
         },
       }

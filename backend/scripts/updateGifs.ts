@@ -1,8 +1,12 @@
 import prisma from "../prisma/prisma";
 import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export default async function updateGifUrls() {
   console.log("Updating exercise GIF URLs...");
+
   try {
     const apiUrl = "https://exercisedb.p.rapidapi.com/exercises?limit=5000";
     const response = await axios.get(apiUrl, {

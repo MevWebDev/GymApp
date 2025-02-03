@@ -1,7 +1,4 @@
 import prisma from "../prisma/prisma";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 async function clearDatabase() {
   try {
