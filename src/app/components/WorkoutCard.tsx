@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { fullWorkoutPlan } from "../../../backend/types";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default function ExerciseCard({
   workoutPlan,
@@ -10,20 +10,18 @@ export default function ExerciseCard({
   workoutPlan: fullWorkoutPlan;
   ifLink?: boolean;
 }) {
-  const router = useRouter();
-
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
         borderRadius: 4,
-        p: 4,
+
         textOverflow: "ellipsis",
         gap: 0.5,
         cursor: "pointer",
       }}
-      onClick={() => router.push(`/explore/workouts/${workoutPlan.id}`)} // 🔹 Clicking anywhere navigates to workout page
+      onClick={() => redirect(`/explore/workouts/${workoutPlan.id}`)}
     >
       <Box
         sx={{
@@ -54,11 +52,10 @@ export default function ExerciseCard({
           />
         </Box>
 
-        {/* 🔹 Prevent parent onClick from triggering when clicking username */}
         <Link
           href={`/explore/users/${workoutPlan.userId}`}
           passHref
-          onClick={(e) => e.stopPropagation()} // ⛔ Stop click event from bubbling
+          onClick={(e) => e.stopPropagation()}
         >
           <Typography
             component="span"

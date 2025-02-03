@@ -1,20 +1,21 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import {
   Avatar,
   Button,
   Menu,
   MenuItem,
   CircularProgress,
+  Box,
 } from "@mui/material";
-import { useAuth } from "../contexts/AuthContext"; // Adjust the import path as needed
-import { supabase } from "../../../backend/auth/supabaseClient"; // Adjust path accordingly
+import { useAuth } from "../contexts/AuthContext";
+import { supabase } from "../../../backend/auth/supabaseClient";
+import CreateWorkoutPlanPopup from "./CreateWorkoutPlanPopup";
 
 const LoginButton = () => {
   const { user, loading } = useAuth();
-  const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -26,37 +27,35 @@ const LoginButton = () => {
   };
 
   const handleDashboard = () => {
-    router.push("/dashboard");
     handleClose();
+    redirect("/dashboard");
   };
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.push("/login");
     handleClose();
+    redirect("/login");
   };
 
-  // While the authentication state is loading, show a spinner
   if (loading) {
     return <CircularProgress size={24} />;
   }
 
-  // If no user is logged in, show the Login button
   if (!user) {
     return (
       <Button
         variant="contained"
         color="primary"
-        onClick={() => router.push("/login")}
+        onClick={() => redirect("/login")}
       >
         Login
       </Button>
     );
   }
 
-  // When the user is logged in, display their avatar with a dropdown menu
   return (
-    <>
+    <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+      <CreateWorkoutPlanPopup />
       <Avatar
         onClick={handleAvatarClick}
         src={user.avatar || undefined}
@@ -70,10 +69,13 @@ const LoginButton = () => {
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
+        <MenuItem onClick={() => redirect(`/explore/users/${user.id}`)}>
+          Profile
+        </MenuItem>
         <MenuItem onClick={handleDashboard}>Dashboard</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
-    </>
+    </Box>
   );
 };
 

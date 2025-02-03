@@ -1,0 +1,37 @@
+1. zrobic design dla /workouts /users / workout/id
+2. zrobic logowanie
+3. zrobic crud do tworzenia/edytowania/usuwania planu treningowego (zod + formik)
+4. auth przez google narazie potem moze wlasne tworzenie (edycja nicku/avataru konta)
+5. funkcnonalnosc followowania kogos
+6. homepage z feedem ostatnich planow przez followowanych
+7. library z wlasnymi planami treningowymi i zapisanymi planami
+8. mqtt i websocket
+9. mozliwosc zaczecia treningu i lastWorkouts (tak zeby czas lecial w tle)
+
+
+Endpointy:
+GET
+- users ✅
+- exercises ✅
+- workouts ✅
+- usersid
+- exercisesid ✅
+- workoutsid ✅
+- feed(workoutsFollowed)
+
+POST 
+- workout ✅
+- user (newUser)
+- exercises ✅
+
+PATCH
+- user nickname
+- user avatar
+- workout
+- followers
+- following
+
+DELETE
+- workout
+
+
