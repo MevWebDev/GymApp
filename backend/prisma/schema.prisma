@@ -8,13 +8,31 @@ datasource db {
 }
 
 model User {
-  id           String               @id
-  nick         String
-  email        String             @unique
-  followers    Int                @default(0)
-  following    Int                @default(0)
-  avatar      String @default("https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg")
-  workoutPlans WorkoutPlan[]
+  id                String             @id @default(uuid())
+  nick              String
+  email             String             @unique
+  avatar            String             @default("https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg")
+
+
+  followers         UserFollow[]       @relation("FollowerRelation")
+  following         UserFollow[]       @relation("FollowingRelation")
+
+  workoutPlans      WorkoutPlan[]
+  savedWorkoutPlans WorkoutPlan[]      @relation("SavedWorkouts")
+}
+
+model UserFollow {
+
+  followerId   String
+
+  followingId  String
+
+ 
+  follower     User   @relation("FollowingRelation", fields: [followerId], references: [id])
+  following    User   @relation("FollowerRelation", fields: [followingId], references: [id])
+
+  
+  @@id([followerId, followingId])
 }
 
 model Exercise {
@@ -36,6 +54,7 @@ model WorkoutPlan {
   userId      String
   user        User                  @relation(fields: [userId], references: [id])
   exercises   WorkoutPlanExercise[]
+  savedByUsers User[]    @relation("SavedWorkouts")
 }
 
 model WorkoutPlanExercise {
