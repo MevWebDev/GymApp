@@ -49,8 +49,9 @@ export default function ExercisePage() {
           const data = (await response.json()) as fullWorkoutPlan;
           setWorkoutPlan(data);
           console.log(data);
-
+          // @ts-ignore
           if (loggedUser && data.savedByUsers) {
+            // @ts-ignore
             const saved = data.savedByUsers.some(
               (u: any) => u.id === loggedUser.id
             );
