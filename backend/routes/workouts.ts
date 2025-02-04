@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import prisma from "../prisma/prisma";
+import { sendWorkoutNotification } from "../index";
 
 const router = Router();
 
@@ -65,6 +66,7 @@ router.post("/", async (req: Request, res: Response): Promise<void> => {
     });
 
     res.status(201).json(fullWorkoutPlan);
+    sendWorkoutNotification("💪 New workout available! Check it out.");
   } catch (error) {
     console.error("Error creating workout plan:", error);
     res.status(500).json({ error: "Internal server error" });
