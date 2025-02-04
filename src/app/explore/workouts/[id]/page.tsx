@@ -177,7 +177,7 @@ export default function ExercisePage() {
           </Link>
         </Box>
         <Box sx={{ display: "flex", gap: 2 }}>
-          {loggedUser?.id !== workoutPlan.userId && (
+          {loggedUser && loggedUser?.id !== workoutPlan.userId && (
             <>
               {isSaved ? (
                 <Button

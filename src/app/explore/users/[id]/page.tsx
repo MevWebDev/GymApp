@@ -210,7 +210,7 @@ export default function ExercisePage() {
           Following: {user.following.length}
         </Typography>
       </Box>
-      {loggedUser?.id !== user.id && !followStateLoading && (
+      {loggedUser && loggedUser?.id !== user.id && !followStateLoading && (
         <>
           {isFollowing ? (
             <Button
