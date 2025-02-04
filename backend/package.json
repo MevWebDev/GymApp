@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx tsx index.ts"
+    "dev": "npx tsx index.ts",
+    "steps": "npx tsx ./mqtt/mqttStepLogger.ts",
+    "location": "npx tsx ./mqtt/mqttLocationLogger.ts "
   },
   "keywords": [],
   "author": "",
@@ -17,6 +19,7 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "fs": "0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "mqtt": "^5.10.3",
     "prisma": "^6.2.1",

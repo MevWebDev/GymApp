@@ -17,6 +17,7 @@
     "@mui/types": "^7.2.21",
     "@types/express": "^5.0.0",
     "axios": "^1.7.9",
+    "bcryptjs": "^2.4.3",
     "formik": "^2.4.6",
     "mqtt": "^5.10.3",
     "next": "15.1.5",
