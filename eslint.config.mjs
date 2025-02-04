@@ -15,6 +15,8 @@ const eslintConfig = [
     rules: {
       "@next/next/no-img-element": "off",
       "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
     },
   },
 ];
