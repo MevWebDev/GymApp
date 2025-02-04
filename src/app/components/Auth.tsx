@@ -6,6 +6,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import bcrypt from "bcryptjs";
 
 import {
   TextField,
@@ -79,6 +80,7 @@ const AuthComponent = () => {
               id: data?.user?.id,
               nick: values.nick,
               email: values.email,
+              password: await bcrypt.hash(values.password, 10),
             });
             showSnackbar(
               "Account created successfully! Check your email to verify.",
