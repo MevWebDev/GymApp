@@ -176,7 +176,18 @@ export default function ExercisePage() {
             </Typography>
           </Link>
         </Box>
-        <Box sx={{ display: "flex", gap: 2 }}>
+        <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+          {loggedUser && (
+            <Link
+              href={`/explore/workouts/start/${workoutPlan.id}`}
+              passHref
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Button sx={{ mt: 1 }} variant="contained" color="success">
+                Start
+              </Button>
+            </Link>
+          )}
           {loggedUser && loggedUser?.id !== workoutPlan.userId && (
             <>
               {isSaved ? (
