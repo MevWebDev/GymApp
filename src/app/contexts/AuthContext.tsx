@@ -13,6 +13,7 @@ import axios from "axios";
 interface AuthContextType {
   user: CustomUser | null;
   loading: boolean;
+  resetPassword: (email: string) => Promise<any>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -26,7 +27,6 @@ const fetchUserDetails = async (userId: string): Promise<CustomUser | null> => {
     const response = await axios.get(
       `http://localhost:3001/api/users/${userId}`
     );
-
     return response.data;
   } catch (error) {
     console.error("Error fetching user details:", error);
@@ -38,14 +38,35 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<CustomUser | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const resetPassword = async (email: string) => {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: "http://localhost:3000/dashboard?type=recovery",
+    });
+    if (error) {
+      console.error("Error resetting password:", error);
+      throw error;
+    }
+    return data;
+  };
+
   useEffect(() => {
     const getSession = async () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-
       if (session?.user) {
-        const fullUser = await fetchUserDetails(session.user.id);
+        let fullUser = await fetchUserDetails(session.user.id);
+        if (!fullUser) {
+          console.log(session.user.user_metadata.picture);
+          await axios.post("http://localhost:3001/api/users/create", {
+            id: session.user.id,
+            nick: session.user.user_metadata.full_name,
+            email: session.user.email,
+            avatar: session.user.user_metadata.picture,
+            password: "",
+          });
+          fullUser = await fetchUserDetails(session.user.id);
+        }
         setUser(fullUser);
       } else {
         setUser(null);
@@ -74,7 +95,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, loading, resetPassword }}>
       {children}
     </AuthContext.Provider>
   );
