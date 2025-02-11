@@ -17,6 +17,7 @@ model User {
   followers         UserFollow[]       @relation("FollowerRelation")
   following         UserFollow[]       @relation("FollowingRelation")
 
+  completedWorkouts CompletedWorkout[]
   workoutPlans      WorkoutPlan[]
   savedWorkoutPlans WorkoutPlan[]      @relation("SavedWorkouts")
 }
@@ -69,9 +70,11 @@ model WorkoutPlanExercise {
 
 model CompletedWorkout {
   id                 Int                        @id @default(autoincrement())
-  userId             Int
+  userId             String
+  planId             Int
   date               DateTime                   @default(now())
   completedExercises CompletedWorkoutExercise[]
+  user               User                       @relation(fields: [userId], references: [id])
 }
 
 model CompletedWorkoutExercise {
