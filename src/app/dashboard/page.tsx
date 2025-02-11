@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, FormEvent } from "react";
+import React, { useState, useEffect, FormEvent, Suspense } from "react";
 import {
   Container,
   Box,
@@ -14,10 +14,12 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import { supabase } from "../../../backend/auth/supabaseClient";
 import axios from "axios";
-import { redirect } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 
-const SettingsPage = () => {
+const DashboardSettings = () => {
   const { user, loading } = useAuth();
+  const searchParams = useSearchParams();
+  const recoverySession = searchParams.get("type") === "recovery";
 
   const [avatar, setAvatar] = useState<string>("");
   const [nick, setNick] = useState<string>("");
@@ -36,9 +38,8 @@ const SettingsPage = () => {
     }
   }, [user]);
 
-  if (!loading && !user) {
+  if (!loading && !user && !recoverySession) {
     redirect("/login");
-    return null;
   }
 
   const handleSubmit = async (e: FormEvent) => {
@@ -160,6 +161,14 @@ const SettingsPage = () => {
         </Alert>
       </Snackbar>
     </Container>
+  );
+};
+
+const SettingsPage = () => {
+  return (
+    <Suspense fallback={<Typography>Loading...</Typography>}>
+      <DashboardSettings />
+    </Suspense>
   );
 };
 
