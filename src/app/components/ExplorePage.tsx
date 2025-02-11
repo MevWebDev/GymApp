@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { Box, Typography, Input, InputAdornment, Button } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import axios from "axios";
 import WorkoutCard from "./WorkoutCard";
 import UserCard from "./UserCard";
@@ -20,30 +20,41 @@ export default function ExplorePage() {
   const [workouts, setWorkouts] = useState<fullWorkoutPlan[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const fetchData = useCallback(async () => {
     if (!view) return;
+    setLoading(true);
+    try {
+      const response = await axios.get(`http://localhost:3001/api/${view}`, {
+        params: { search },
+      });
+      if (view === "users") setUsers(response.data);
+      else if (view === "workouts") setWorkouts(response.data);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, [search, view]);
 
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(`http://localhost:3001/api/${view}`, {
-          params: { search },
-        });
-        if (view === "users") setUsers(response.data);
-        else if (view === "workouts") setWorkouts(response.data);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
+  useEffect(() => {
     const debounceTimeout = setTimeout(() => {
       fetchData();
     }, 300);
 
     return () => clearTimeout(debounceTimeout);
-  }, [search, view]);
+  }, [fetchData]);
+
+  const sortedUsers = useMemo(() => {
+    return users.sort((a, b) => {
+      return a.nick.localeCompare(b.nick);
+    });
+  }, [users]);
+
+  const sortedWorkouts = useMemo(() => {
+    return workouts.sort((a, b) => {
+      return a.title.localeCompare(b.title);
+    });
+  }, [workouts]);
 
   if (view !== "users" && view !== "workouts") {
     return <Typography>Invalid page</Typography>;
@@ -128,7 +139,7 @@ export default function ExplorePage() {
         sx={{ mt: 4, width: "70%" }}
       >
         {view === "workouts" &&
-          workouts.slice(0, 12).map((workout: fullWorkoutPlan) => (
+          sortedWorkouts.slice(0, 12).map((workout: fullWorkoutPlan) => (
             <Grid
               sx={{ p: 4 }}
               key={workout.id}
@@ -139,7 +150,7 @@ export default function ExplorePage() {
           ))}
 
         {view === "users" &&
-          users.slice(0, 12).map((user: User) => (
+          sortedUsers.slice(0, 12).map((user: User) => (
             <Grid key={user.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <UserCard user={user} />
             </Grid>
