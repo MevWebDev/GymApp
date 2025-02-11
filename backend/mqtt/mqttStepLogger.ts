@@ -43,7 +43,7 @@ if (!fs.existsSync(LOG_DIR)) {
   fs.mkdirSync(LOG_DIR, { recursive: true });
 }
 
-const client = mqtt.connect("mqtt://localhost:1883"); // Adjust if needed
+const client = mqtt.connect("mqtt://localhost:1883");
 
 client.on("connect", () => {
   console.log("Connected to MQTT broker step logger");
