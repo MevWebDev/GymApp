@@ -1,41 +1,18 @@
 import React, { ReactNode } from "react";
-import { Typography } from "@mui/material";
-import { SxProps } from "@mui/material";
 
 export default function AnimatedHoverText({
   children,
-  style,
 }: {
   children: ReactNode;
-  style: SxProps;
+  className?: string;
 }) {
   return (
-    <Typography
-      sx={{
-        position: "relative",
-        display: "inline-block",
-        color: "text.primary",
-        textDecoration: "none",
-        fontSize: { xs: 14, md: 18 },
-
-        "&::after": {
-          content: '""',
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          width: 0,
-          height: "2px",
-          backgroundColor: "currentColor",
-          transition: "width 0.3s ease",
-        },
-
-        "&:hover::after": {
-          width: "100%",
-        },
-        ...style,
-      }}
+    <span
+      className={`relative  text-primary text-[14px] md:text-[18px] 
+                  after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] 
+                  after:bg-current after:transition-all after:duration-300 hover:after:w-full hidden md:inline-block`}
     >
       {children}
-    </Typography>
+    </span>
   );
 }
