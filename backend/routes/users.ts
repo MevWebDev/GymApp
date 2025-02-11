@@ -54,8 +54,7 @@ router.get("/:id", async (req: Request, res: Response): Promise<void> => {
     };
 
     res.json(completeUser);
-  } catch (error) {
-    console.error("Error fetching user by ID:", error);
+  } catch {
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -89,7 +88,7 @@ router.get(
 
 router.post("/create", async (req: Request, res: Response): Promise<void> => {
   try {
-    const { id, nick, email, password } = req.body;
+    const { id, nick, email, password, avatar } = req.body;
 
     const user = await prisma.user.create({
       data: {
@@ -97,6 +96,7 @@ router.post("/create", async (req: Request, res: Response): Promise<void> => {
         nick,
         email,
         password,
+        avatar,
       },
     });
 
