@@ -25,9 +25,9 @@ const useWebSocket = (url: string) => {
         const data = JSON.parse(message);
 
         if (data.type === "workout-notification") {
-          alert(`🔔 ${data.message}`); // Show alert OR update UI
+          alert(`🔔 ${data.message}`);
         } else if (data.type === "users-online") {
-          setOnlineUsers(data.count); // Update online user count
+          setOnlineUsers(data.count);
         }
       } catch (error) {
         if (error) console.log("Received message:", message);

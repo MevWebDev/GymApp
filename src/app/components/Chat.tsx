@@ -1,4 +1,3 @@
-// components/Chat.tsx
 import { useState } from "react";
 import { Box, IconButton, Paper, TextField, Typography } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
