@@ -19,7 +19,6 @@ export default function ExercisePage() {
 
   useEffect(() => {
     if (id) {
-      console.log(`Fetchinf from URL: http://localhost:3001/exercises/${id}`);
       const fetchExercise = async () => {
         try {
           const response = await fetch(
@@ -30,7 +29,6 @@ export default function ExercisePage() {
           }
           const data = (await response.json()) as Exercise;
           setExercise(data);
-          console.log(data);
         } catch (error) {
           console.error(error);
         }

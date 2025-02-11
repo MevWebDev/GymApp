@@ -12,8 +12,6 @@ const Chat = () => {
   );
   const { user } = useAuth();
 
-  console.log("Chat component re-rendered, messages:", messages);
-
   const handleSendMessage = () => {
     if (inputMessage.trim()) {
       sendMessage(`${user?.nick}: ${inputMessage}`);

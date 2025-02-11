@@ -19,9 +19,7 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
     }
     const allUsers = await prisma.user.findMany({});
     res.json(allUsers);
-  } catch (error) {
-    console.log("Error fetching users:", error);
-  }
+  } catch {}
 });
 
 router.get("/:id", async (req: Request, res: Response): Promise<void> => {

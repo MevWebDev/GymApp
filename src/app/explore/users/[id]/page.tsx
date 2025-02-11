@@ -94,7 +94,7 @@ export default function ExercisePage() {
           followerId: loggedUser.id,
         }
       );
-      console.log("User followed!", response.data);
+
       setSnackbar({
         open: true,
         message: "User followed successfully!",
@@ -140,7 +140,6 @@ export default function ExercisePage() {
         }
       );
 
-      console.log("User unfollowed!", response.data);
       setSnackbar({
         open: true,
         message: "User unfollowed successfully!",

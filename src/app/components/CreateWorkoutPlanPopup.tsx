@@ -103,16 +103,11 @@ const CreateWorkoutPlanPopup = () => {
           })),
         };
 
-        console.log(
-          "Submitting Workout Plan:",
-          JSON.stringify(payload, null, 2)
-        );
-
         const response = await axios.post(
           "http://localhost:3001/api/workouts",
           payload
         );
-        console.log("Workout plan created:", response.data);
+
         router.push(`/explore/workouts/${response.data.id}`);
         setSnackbar({
           open: true,

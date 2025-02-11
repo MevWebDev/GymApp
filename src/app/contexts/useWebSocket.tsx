@@ -8,9 +8,7 @@ const useWebSocket = (url: string) => {
   useEffect(() => {
     ws.current = new WebSocket(url);
 
-    ws.current.onopen = () => {
-      console.log("WebSocket connected");
-    };
+    ws.current.onopen = () => {};
 
     ws.current.onmessage = async (event) => {
       let message;
@@ -29,15 +27,12 @@ const useWebSocket = (url: string) => {
         } else if (data.type === "users-online") {
           setOnlineUsers(data.count);
         }
-      } catch (error) {
-        if (error) console.log("Received message:", message);
+      } catch {
         setMessages((prev) => [...prev, message]);
       }
     };
 
-    ws.current.onclose = () => {
-      console.log("WebSocket disconnected");
-    };
+    ws.current.onclose = () => {};
 
     return () => {
       ws.current?.close();

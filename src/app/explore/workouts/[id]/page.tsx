@@ -48,7 +48,7 @@ export default function ExercisePage() {
           }
           const data = (await response.json()) as fullWorkoutPlan;
           setWorkoutPlan(data);
-          console.log(data);
+
           // @ts-ignore
           if (loggedUser && data.savedByUsers) {
             // @ts-ignore
@@ -81,7 +81,7 @@ export default function ExercisePage() {
           workoutPlanId: workoutPlan.id,
         }
       );
-      console.log("Workout saved!", response.data);
+
       setSnackbar({
         open: true,
         message: "Workout saved successfully!",
@@ -110,7 +110,7 @@ export default function ExercisePage() {
           },
         }
       );
-      console.log("Workout unsaved!", response.data);
+
       setSnackbar({
         open: true,
         message: "Workout unsaved successfully!",

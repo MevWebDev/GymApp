@@ -57,7 +57,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (session?.user) {
         let fullUser = await fetchUserDetails(session.user.id);
         if (!fullUser) {
-          console.log(session.user.user_metadata.picture);
           await axios.post("http://localhost:3001/api/users/create", {
             id: session.user.id,
             nick: session.user.user_metadata.full_name,

@@ -219,8 +219,7 @@ router.post("/save", async (req: Request, res: Response): Promise<void> => {
 
 router.post("/complete", async (req: Request, res: Response): Promise<void> => {
   try {
-    const { userId, workoutPlanId, duration, exercises } = req.body;
-    console.log(userId, workoutPlanId, duration, exercises);
+    const { userId, workoutPlanId, exercises } = req.body;
     const completedWorkout = await prisma.completedWorkout.create({
       data: {
         user: { connect: { id: userId } },

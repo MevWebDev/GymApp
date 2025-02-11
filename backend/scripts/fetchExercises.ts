@@ -19,8 +19,6 @@ async function importExercises() {
 
     const exercises = response.data;
 
-    console.log(`Pobrano ćwiczeń: ${exercises.length}`);
-
     const created = await prisma.exercise.createMany({
       data: exercises.map((ex: Exercise) => ({
         id: Number(ex.id),
@@ -32,7 +30,6 @@ async function importExercises() {
       })),
       skipDuplicates: true,
     });
-    console.log(`Zapisano ćwiczeń: ${created.count}`);
   } catch (error) {
     console.error("Błąd podczas importu ćwiczeń:", error);
   } finally {
