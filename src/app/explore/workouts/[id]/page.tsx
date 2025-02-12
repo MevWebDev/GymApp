@@ -22,6 +22,11 @@ import { useAuth } from "../../../contexts/AuthContext";
 import EditWorkoutPlanPopup from "../../../components/EditWorkoutPlanPopup";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function ExercisePage() {
   const { id } = useParams();
@@ -74,13 +79,10 @@ export default function ExercisePage() {
   const handleSave = async () => {
     if (!loggedUser || !workoutPlan) return;
     try {
-      const response = await axios.post(
-        "http://localhost:3001/api/workouts/save",
-        {
-          userId: loggedUser.id,
-          workoutPlanId: workoutPlan.id,
-        }
-      );
+      await axios.post("http://localhost:3001/api/workouts/save", {
+        userId: loggedUser.id,
+        workoutPlanId: workoutPlan.id,
+      });
 
       setSnackbar({
         open: true,
@@ -101,15 +103,12 @@ export default function ExercisePage() {
   const handleUnsave = async () => {
     if (!loggedUser || !workoutPlan) return;
     try {
-      const response = await axios.delete(
-        "http://localhost:3001/api/workouts/save",
-        {
-          data: {
-            userId: loggedUser.id,
-            workoutPlanId: workoutPlan.id,
-          },
-        }
-      );
+      await axios.delete("http://localhost:3001/api/workouts/save", {
+        data: {
+          userId: loggedUser.id,
+          workoutPlanId: workoutPlan.id,
+        },
+      });
 
       setSnackbar({
         open: true,
@@ -183,8 +182,18 @@ export default function ExercisePage() {
               passHref
               onClick={(e) => e.stopPropagation()}
             >
-              <Button sx={{ mt: 1 }} variant="contained" color="success">
-                Start
+              <Button variant="contained" color="success">
+                <Typography
+                  sx={{
+                    display: { xs: "none", md: "inline-block" },
+                    color: "secondary.main",
+                  }}
+                >
+                  Start
+                </Typography>
+                <PlayArrowIcon
+                  sx={{ display: { xs: "inline-block", md: "none" } }}
+                />
               </Button>
             </Link>
           )}
@@ -196,14 +205,24 @@ export default function ExercisePage() {
                   sx={{
                     bgcolor: "#f44336",
                     color: "secondary.main",
-                    mt: 1,
+
                     "&:hover": { bgcolor: darken("#f44336", 0.1) },
                     px: 2,
                     py: 1,
                     borderRadius: 12,
                   }}
                 >
-                  Unsave
+                  <Typography
+                    sx={{
+                      display: { xs: "none", md: "inline-block" },
+                      color: "secondary.main",
+                    }}
+                  >
+                    Unsave
+                  </Typography>
+                  <BookmarkRemoveIcon
+                    sx={{ display: { xs: "inline-block", md: "none" } }}
+                  />
                 </Button>
               ) : (
                 <Button
@@ -211,14 +230,24 @@ export default function ExercisePage() {
                   sx={{
                     bgcolor: "#2196F3",
                     color: "secondary.main",
-                    mt: 1,
+
                     "&:hover": { bgcolor: darken("#2196F3", 0.1) },
                     px: 2,
                     py: 1,
                     borderRadius: 12,
                   }}
                 >
-                  Save
+                  <Typography
+                    sx={{
+                      display: { xs: "none", md: "inline-block" },
+                      color: "secondary.main",
+                    }}
+                  >
+                    Save
+                  </Typography>
+                  <BookmarkIcon
+                    sx={{ display: { xs: "inline-block", md: "none" } }}
+                  />
                 </Button>
               )}
             </>
@@ -252,7 +281,17 @@ export default function ExercisePage() {
                 variant="contained"
                 color="error"
               >
-                Delete
+                <Typography
+                  sx={{
+                    display: { xs: "none", md: "inline-flex" },
+                    color: "white",
+                  }}
+                >
+                  Delete
+                </Typography>
+                <DeleteIcon
+                  sx={{ display: { xs: "inline-flex", md: "none" } }}
+                />
               </Button>
             </>
           )}

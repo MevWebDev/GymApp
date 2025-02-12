@@ -22,6 +22,7 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
 import { fullWorkoutPlan } from "../../../backend/types";
+import EditIcon from "@mui/icons-material/Edit";
 
 const workoutPlanSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -141,7 +142,10 @@ const EditWorkoutPlanPopup: React.FC<EditWorkoutPlanPopupProps> = ({
   return (
     <>
       <Button variant="outlined" onClick={handleOpen}>
-        Edit Workout Plan
+        <Typography sx={{ display: { xs: "none", md: "inline-flex" } }}>
+          Edit workout plan
+        </Typography>
+        <EditIcon sx={{ display: { xs: "inline-flex", md: "none" } }} />
       </Button>
 
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
