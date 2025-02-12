@@ -4,6 +4,8 @@ import "./globals.css";
 import ThemeRegistry from "./ThemeRegistry";
 import Navbar from "./components/Navbar";
 import { AuthProvider } from "./contexts/AuthContext";
+import { SnackbarProvider } from "./contexts/SnackbarContext";
+import WebSocketListener from "./components/webSocketListener";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,10 +21,13 @@ export default function RootLayout({
     <html lang="en">
       <ThemeRegistry>
         <body className={`antialiased`}>
-          <AuthProvider>
-            <Navbar />
-            {children}
-          </AuthProvider>
+          <SnackbarProvider>
+            <AuthProvider>
+              <Navbar />
+              <WebSocketListener />
+              {children}
+            </AuthProvider>
+          </SnackbarProvider>
         </body>
       </ThemeRegistry>
     </html>

@@ -14,10 +14,12 @@ const wss = new WebSocket.Server({ server });
 
 const usersOnline = new Set();
 
-export function sendWorkoutNotification(message: string) {
+export function sendWorkoutNotification(message: string, id: string | number) {
   wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify({ type: "workout-notification", message }));
+      client.send(
+        JSON.stringify({ type: "workout-notification", message, id })
+      );
     }
   });
 }

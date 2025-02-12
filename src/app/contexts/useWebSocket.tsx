@@ -1,6 +1,10 @@
+//// filepath: /home/szymon/repos/projektprogramistyczny-MevWebDev/src/app/contexts/useWebSocket.tsx
 import { useEffect, useRef, useState } from "react";
+import { useSnackbarContext } from "./SnackbarContext";
+import { Link } from "@mui/material";
 
 const useWebSocket = (url: string) => {
+  const { showMessage } = useSnackbarContext();
   const [messages, setMessages] = useState<string[]>([]);
   const [onlineUsers, setOnlineUsers] = useState(0);
   const ws = useRef<WebSocket | null>(null);
@@ -23,7 +27,19 @@ const useWebSocket = (url: string) => {
         const data = JSON.parse(message);
 
         if (data.type === "workout-notification") {
-          alert(`🔔 ${data.message}`);
+          showMessage(
+            <>
+              🔔 {data.message}{" "}
+              <Link
+                href={`/explore/workouts/${data.id}`}
+                underline="hover"
+                color="inherit"
+              >
+                View Workout Plan
+              </Link>
+            </>,
+            "info"
+          );
         } else if (data.type === "users-online") {
           setOnlineUsers(data.count);
         }
@@ -37,7 +53,7 @@ const useWebSocket = (url: string) => {
     return () => {
       ws.current?.close();
     };
-  }, [url]);
+  }, [url, showMessage]);
 
   const sendMessage = (message: string) => {
     if (ws.current && ws.current.readyState === WebSocket.OPEN) {

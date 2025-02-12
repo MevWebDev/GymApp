@@ -66,7 +66,11 @@ router.post("/", async (req: Request, res: Response): Promise<void> => {
     });
 
     res.status(201).json(fullWorkoutPlan);
-    sendWorkoutNotification("💪 New workout available! Check it out.");
+
+    sendWorkoutNotification(
+      "💪 New workout available! Check it out.",
+      String(workoutPlan.id)
+    );
   } catch (error) {
     console.error("Error creating workout plan:", error);
     res.status(500).json({ error: "Internal server error" });
