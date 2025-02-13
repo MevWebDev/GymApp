@@ -65,7 +65,7 @@ app.listen(process.env.PORT || 5000, () => {
   console.log(`Server is running`);
 });
 
-server.listen(8081, () => {
+server.listen(process.env.PORT, () => {
   console.log("WebSocket server started on ws://localhost:8081");
 });
 

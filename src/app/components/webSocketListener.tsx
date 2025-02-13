@@ -3,6 +3,6 @@
 import useWebSocket from "../contexts/useWebSocket";
 
 export default function WebSocketListener() {
-  useWebSocket("ws://localhost:8080");
+  useWebSocket("wss://gymapp-backend-production.up.railway.app");
   return null;
 }
