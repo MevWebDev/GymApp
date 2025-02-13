@@ -1,8 +1,9 @@
 import prisma from "../prisma/prisma";
 import axios from "axios";
 import dotenv from "dotenv";
+import path from "path";
 
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 export default async function updateGifUrls() {
   console.log("Updating exercise GIF URLs...");

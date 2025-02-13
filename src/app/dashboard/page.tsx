@@ -12,7 +12,7 @@ import {
   Alert,
 } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
-// import { supabase } from "../../../backend/auth/supabaseClient";
+import { supabase } from "../../../backend/src/auth/supabaseClient";
 import axios from "axios";
 import { redirect, useSearchParams } from "next/navigation";
 
@@ -65,13 +65,13 @@ const DashboardSettings = () => {
       profileUpdated = false;
     }
 
-    // if (password.trim() !== "") {
-    //   const { error } = await supabase.auth.updateUser({ password });
-    //   if (error) {
-    //     console.error("Password update error:", error.message);
-    //     passwordUpdated = false;
-    //   }
-    // }
+    if (password.trim() !== "") {
+      const { error } = await supabase.auth.updateUser({ password });
+      if (error) {
+        console.error("Password update error:", error.message);
+        passwordUpdated = false;
+      }
+    }
 
     if (profileUpdated && passwordUpdated) {
       setSnackbar({

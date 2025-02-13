@@ -11,7 +11,7 @@ import {
   Box,
 } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
-import { supabase } from "../../../backend/auth/supabaseClient";
+import { supabase } from "../../../backend/src/auth/supabaseClient";
 import CreateWorkoutPlanPopup from "./CreateWorkoutPlanPopup";
 
 const LoginButton = () => {

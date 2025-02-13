@@ -6,8 +6,8 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { supabase } from "../../../backend/auth/supabaseClient";
-import { User as CustomUser } from "../../../backend/types";
+import { supabase } from "../../../backend/src/auth/supabaseClient";
+import { User as CustomUser } from "../../../backend/src/types";
 import axios from "axios";
 
 interface AuthContextType {

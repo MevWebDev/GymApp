@@ -15,7 +15,7 @@ const wss = new WebSocket.Server({ server });
 const usersOnline = new Set();
 
 export function sendWorkoutNotification(message: string, id: string | number) {
-  wss.clients.forEach((client) => {
+  wss.clients.forEach((client: any) => {
     if (client.readyState === WebSocket.OPEN) {
       client.send(
         JSON.stringify({ type: "workout-notification", message, id })
@@ -25,7 +25,7 @@ export function sendWorkoutNotification(message: string, id: string | number) {
 }
 
 function broadcastUserCount() {
-  wss.clients.forEach((client) => {
+  wss.clients.forEach((client: any) => {
     if (client.readyState === WebSocket.OPEN) {
       client.send(
         JSON.stringify({ type: "users-online", count: usersOnline.size })
@@ -34,13 +34,13 @@ function broadcastUserCount() {
   });
 }
 
-wss.on("connection", (ws) => {
+wss.on("connection", (ws: any) => {
   console.log("New client connected");
   usersOnline.add(ws);
   broadcastUserCount();
 
-  ws.on("message", (message) => {
-    wss.clients.forEach((client) => {
+  ws.on("message", (message: any) => {
+    wss.clients.forEach((client: any) => {
       if (client.readyState === WebSocket.OPEN) {
         client.send(message);
       }

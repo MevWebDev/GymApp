@@ -19,6 +19,7 @@ export type {
 export type fullWorkoutPlan = WorkoutPlan & {
   user: User;
   exercises: Array<WorkoutPlanExercise & { exercise: Exercise }>;
+  savedByUsers: Array<{ userId: string }>;
 };
 
 export type fullCompletedWorkout = CompletedWorkout & {

@@ -104,12 +104,12 @@ router.post("/create", async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-// @ts-ignore
+
 router.patch("/update", async (req, res) => {
   const { id, nick, avatar } = req.body;
 
   if (!id) {
-    return res.status(400).json({ error: "User id is required." });
+    return void res.status(400).json({ error: "User id is required." });
   }
 
   try {
@@ -120,10 +120,10 @@ router.patch("/update", async (req, res) => {
         avatar,
       },
     });
-    return res.status(200).json(updatedUser);
+    return void res.status(200).json(updatedUser);
   } catch (error) {
     console.error("Error updating user:", error);
-    return res
+    return void res
       .status(500)
       .json({ error: "An error occurred while updating the profile." });
   }
@@ -185,12 +185,14 @@ router.post("/follow", async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-// @ts-ignore
+
 router.delete("/unfollow", async (req: Request, res: Response) => {
   const { followerId, followingId } = req.body;
 
   if (!followerId || !followingId) {
-    return res.status(400).json({ error: "Missing userId or followerId." });
+    return void res
+      .status(400)
+      .json({ error: "Missing userId or followerId." });
   }
 
   try {
@@ -201,12 +203,12 @@ router.delete("/unfollow", async (req: Request, res: Response) => {
       },
     });
 
-    return res
+    return void res
       .status(200)
       .json({ message: "User unfollowed successfully.", deletedFollow });
   } catch (error) {
     console.error("Error unfollowing user:", error);
-    return res.status(500).json({ error: "Internal server error" });
+    return void res.status(500).json({ error: "Internal server error" });
   }
 });
 

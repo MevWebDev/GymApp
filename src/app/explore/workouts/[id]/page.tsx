@@ -16,7 +16,7 @@ import {
 
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { fullWorkoutPlan } from "../../../../../backend/types";
+import { fullWorkoutPlan } from "../../../../../backend/src/types";
 import Link from "next/link";
 import { useAuth } from "../../../contexts/AuthContext";
 import EditWorkoutPlanPopup from "../../../components/EditWorkoutPlanPopup";
@@ -58,9 +58,7 @@ export default function ExercisePage() {
           const data = (await response.json()) as fullWorkoutPlan;
           setWorkoutPlan(data);
 
-          // @ts-ignore
           if (loggedUser && data.savedByUsers) {
-            // @ts-ignore
             const saved = data.savedByUsers.some(
               (u: any) => u.id === loggedUser.id
             );

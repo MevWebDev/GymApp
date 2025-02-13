@@ -41,6 +41,9 @@ importers:
       socket.io:
         specifier: ^4.8.1
         version: 4.8.1
+      ws:
+        specifier: ^8.18.0
+        version: 8.18.0
     devDependencies:
       '@supabase/supabase-js':
         specifier: ^2.48.1
@@ -58,7 +61,7 @@ importers:
         specifier: ^9.0.7
         version: 9.0.8
       '@types/node':
-        specifier: ^22.10.7
+        specifier: ^22.13.2
         version: 22.13.2
       axios:
         specifier: ^1.7.9
