@@ -16,7 +16,8 @@ exports.default = updateGifUrls;
 const prisma_1 = __importDefault(require("../prisma/prisma"));
 const axios_1 = __importDefault(require("axios"));
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
+const path_1 = __importDefault(require("path"));
+dotenv_1.default.config({ path: path_1.default.resolve(__dirname, "../.env") });
 function updateGifUrls() {
     return __awaiter(this, void 0, void 0, function* () {
         console.log("Updating exercise GIF URLs...");
