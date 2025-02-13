@@ -61,10 +61,8 @@ app.use((0, cors_1.default)());
 app.use("/api/exercises", exercises_1.default);
 app.use("/api/workouts", workouts_1.default);
 app.use("/api/users", users_1.default);
-const PORT = process.env.PORT || 3001; // Use Railway's PORT variable
-// @ts-ignore
-app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server is running on http://0.0.0.0:${PORT}`);
+app.listen(process.env.PORT || 5000, () => {
+    console.log(`Server is running`);
 });
 server.listen(8081, () => {
     console.log("WebSocket server started on ws://localhost:8081");
