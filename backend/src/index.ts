@@ -61,9 +61,10 @@ app.use("/api/exercises", exerciseRouter);
 app.use("/api/workouts", workoutRouter);
 app.use("/api/users", userRouter);
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+const PORT = process.env.PORT || 3001; // Use Railway's PORT variable
+// @ts-ignore
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
 
 server.listen(8081, () => {
