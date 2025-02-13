@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx tsx index.ts",
-    "steps": "npx tsx ./mqtt/mqttStepLogger.ts",
-    "location": "npx tsx ./mqtt/mqttLocationLogger.ts "
+    "build": "tsc ./*"
   },
   "keywords": [],
   "author": "",

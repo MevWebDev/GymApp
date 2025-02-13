@@ -27,6 +27,10 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
 import DeleteIcon from "@mui/icons-material/Delete";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 export default function ExercisePage() {
   const { id } = useParams();
@@ -124,6 +128,56 @@ export default function ExercisePage() {
         severity: "error",
       });
     }
+  };
+
+  //// filepath: /home/szymon/repos/projektprogramistyczny-MevWebDev/src/app/explore/workouts/[id]/page.tsx
+  const exportToPdf = () => {
+    const doc = new jsPDF();
+
+    // Title and workout info
+    doc.setFontSize(20);
+    doc.text("Workout Plan", 14, 20);
+    doc.setFontSize(12);
+    doc.text(workoutPlan.title, 14, 40);
+    doc.text(workoutPlan.description || "null", 14, 50);
+
+    // Created by text with clickable link and underline
+    const createdText = `Created by: ${workoutPlan.user.nick}`;
+    doc.textWithLink(createdText, 14, 60, {
+      url: `http://localhost:3000/explore/users/${workoutPlan.userId}`,
+    });
+    const createdTextWidth = doc.getTextWidth(createdText);
+    doc.setLineWidth(0.5);
+    // Draw underline just below the text
+    doc.line(14, 61, 14 + createdTextWidth, 61);
+
+    // Table for exercises
+    const tableColumn = ["Exercise", "Sets", "Reps"];
+    const tableRows = workoutPlan.exercises.map((exercise) => [
+      exercise.exercise.name,
+      exercise.sets,
+      exercise.reps,
+    ]);
+    //  @ts-ignore
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 70,
+    });
+    const finalY = (doc as any).lastAutoTable?.finalY || 70;
+
+    // GitHub link with underline
+    const githubText = "My GitHub";
+    const xPos = 14;
+    const yPos = finalY + 10;
+    doc.textWithLink(githubText, xPos, yPos, {
+      url: "https://github.com/MevWebDev",
+    });
+    const textWidth = doc.getTextWidth(githubText);
+    doc.setLineWidth(0.5);
+    doc.line(xPos, yPos + 1, xPos + textWidth, yPos + 1);
+
+    doc.save(`workout-plan-${workoutPlan.id}.pdf`);
   };
 
   return (
@@ -342,6 +396,13 @@ export default function ExercisePage() {
           </ListItem>
         ))}
       </List>
+      <Button
+        onClick={exportToPdf}
+        variant="text"
+        sx={{ width: "fit-content" }}
+      >
+        <FileDownloadIcon sx={{ mr: 1 }} /> Export to PDF
+      </Button>
       <Divider />
       <Snackbar
         open={snackbar.open}
