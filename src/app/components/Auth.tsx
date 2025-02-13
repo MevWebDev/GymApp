@@ -76,19 +76,25 @@ const AuthComponent = () => {
           });
           if (error) throw error;
 
-          const response = await axios.get("http://localhost:3001/api/users", {
-            params: { id: data?.user?.id },
-          });
+          const response = await axios.get(
+            "https://gymapp-backend-production.up.railway.app/api/users",
+            {
+              params: { id: data?.user?.id },
+            }
+          );
 
           if (response.data && response.data.user) {
             showSnackbar("User already exists. Please log in.", "error");
           } else {
-            await axios.post("http://localhost:3001/api/users/create", {
-              id: data?.user?.id,
-              nick: values.nick,
-              email: values.email,
-              password: await bcrypt.hash(values.password, 10),
-            });
+            await axios.post(
+              "https://gymapp-backend-production.up.railway.app/api/users/create",
+              {
+                id: data?.user?.id,
+                nick: values.nick,
+                email: values.email,
+                password: await bcrypt.hash(values.password, 10),
+              }
+            );
             showSnackbar(
               "Account created successfully! Check your email to verify.",
               "success"

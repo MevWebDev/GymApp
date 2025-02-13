@@ -50,7 +50,7 @@ export default function ExercisePage() {
       const fetchWorkout = async () => {
         try {
           const response = await fetch(
-            `http://localhost:3001/api/workouts/${id}`
+            `https://gymapp-backend-production.up.railway.app/api/workouts/${id}`
           );
           if (!response.ok) {
             throw new Error("Failed to fetch workout");
@@ -81,10 +81,13 @@ export default function ExercisePage() {
   const handleSave = async () => {
     if (!loggedUser || !workoutPlan) return;
     try {
-      await axios.post("http://localhost:3001/api/workouts/save", {
-        userId: loggedUser.id,
-        workoutPlanId: workoutPlan.id,
-      });
+      await axios.post(
+        "https://gymapp-backend-production.up.railway.app/api/workouts/save",
+        {
+          userId: loggedUser.id,
+          workoutPlanId: workoutPlan.id,
+        }
+      );
 
       setSnackbar({
         open: true,
@@ -105,12 +108,15 @@ export default function ExercisePage() {
   const handleUnsave = async () => {
     if (!loggedUser || !workoutPlan) return;
     try {
-      await axios.delete("http://localhost:3001/api/workouts/save", {
-        data: {
-          userId: loggedUser.id,
-          workoutPlanId: workoutPlan.id,
-        },
-      });
+      await axios.delete(
+        "https://gymapp-backend-production.up.railway.app/api/workouts/save",
+        {
+          data: {
+            userId: loggedUser.id,
+            workoutPlanId: workoutPlan.id,
+          },
+        }
+      );
 
       setSnackbar({
         open: true,
@@ -311,7 +317,7 @@ export default function ExercisePage() {
                 onClick={() => {
                   axios
                     .delete(
-                      `http://localhost:3001/api/workouts/${workoutPlan.id}`
+                      `https://gymapp-backend-production.up.railway.app/api/workouts/${workoutPlan.id}`
                     )
                     .then(() => {
                       setSnackbar({

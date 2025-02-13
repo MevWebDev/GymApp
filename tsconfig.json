@@ -32,7 +32,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "backend/scripts/updateGifs.js",
-    "src/**/*"
+    "src/**/*",
+    "backend/tsconfig.json"
   ],
   "exclude": ["node_modules"]
 }

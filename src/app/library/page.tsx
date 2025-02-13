@@ -19,9 +19,11 @@ export default function LibraryPage() {
         try {
           const [savedResponse, createdResponse] = await Promise.all([
             axios.get(
-              `http://localhost:3001/api/users/${user.id}/saved-workouts`
+              `https://gymapp-backend-production.up.railway.app/api/users/${user.id}/saved-workouts`
             ),
-            axios.get(`http://localhost:3001/api/users/${user.id}/workouts`),
+            axios.get(
+              `https://gymapp-backend-production.up.railway.app/api/users/${user.id}/workouts`
+            ),
           ]);
 
           setSavedWorkouts(savedResponse.data);

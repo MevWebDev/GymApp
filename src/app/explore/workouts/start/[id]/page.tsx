@@ -74,7 +74,7 @@ const WorkoutExecutionPage = () => {
     const fetchWorkoutData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3001/api/workouts/${id}`
+          `https://gymapp-backend-production.up.railway.app/api/workouts/${id}`
         );
         if (!response.ok) throw new Error("Failed to fetch workout plan");
 
@@ -185,7 +185,7 @@ const WorkoutExecutionPage = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:3001/api/workouts/complete",
+        "https://gymapp-backend-production.up.railway.app/api/workouts/complete",
         payload,
         { headers: { "Content-Type": "application/json" } }
       );

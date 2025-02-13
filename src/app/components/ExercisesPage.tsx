@@ -18,7 +18,7 @@ export default function ExercisesPage() {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:3001/api/exercises`,
+          `https://gymapp-backend-production.up.railway.app/api/exercises`,
           {
             params: { search },
           }

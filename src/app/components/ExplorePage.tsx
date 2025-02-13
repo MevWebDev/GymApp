@@ -24,9 +24,12 @@ export default function ExplorePage() {
     if (!view) return;
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:3001/api/${view}`, {
-        params: { search },
-      });
+      const response = await axios.get(
+        `https://gymapp-backend-production.up.railway.app/api/${view}`,
+        {
+          params: { search },
+        }
+      );
       if (view === "users") setUsers(response.data);
       else if (view === "workouts") setWorkouts(response.data);
     } catch (err) {

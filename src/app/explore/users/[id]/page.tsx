@@ -40,10 +40,10 @@ export default function ExercisePage() {
       const fetchUser = async () => {
         try {
           const response1 = await fetch(
-            `http://localhost:3001/api/users/${id}`
+            `https://gymapp-backend-production.up.railway.app/api/users/${id}`
           );
           const response2 = await fetch(
-            `http://localhost:3001/api/users/${id}/workouts`
+            `https://gymapp-backend-production.up.railway.app/api/users/${id}/workouts`
           );
           if (!response1.ok || !response2.ok) {
             throw new Error("Failed to fetch data");
@@ -88,7 +88,7 @@ export default function ExercisePage() {
     if (!loggedUser || !user) return;
     try {
       const response = await axios.post(
-        `http://localhost:3001/api/users/follow`,
+        `https://gymapp-backend-production.up.railway.app/api/users/follow`,
         {
           followingId: user.id,
           followerId: loggedUser.id,
@@ -130,7 +130,7 @@ export default function ExercisePage() {
     if (!loggedUser || !user) return;
     try {
       const response = await axios.delete(
-        `http://localhost:3001/api/users/unfollow`,
+        `https://gymapp-backend-production.up.railway.app/api/users/unfollow`,
 
         {
           data: {

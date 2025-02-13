@@ -22,7 +22,7 @@ export default function ExercisePage() {
       const fetchExercise = async () => {
         try {
           const response = await fetch(
-            `http://localhost:3001/api/exercises/${id}`
+            `https://gymapp-backend-production.up.railway.app/api/exercises/${id}`
           );
           if (!response.ok) {
             throw new Error("Failed to fetch exercise");

@@ -25,7 +25,7 @@ interface AuthProviderProps {
 const fetchUserDetails = async (userId: string): Promise<CustomUser | null> => {
   try {
     const response = await axios.get(
-      `http://localhost:3001/api/users/${userId}`
+      `https://gymapp-backend-production.up.railway.app/api/users/${userId}`
     );
     return response.data;
   } catch (error) {
@@ -57,13 +57,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (session?.user) {
         let fullUser = await fetchUserDetails(session.user.id);
         if (!fullUser) {
-          await axios.post("http://localhost:3001/api/users/create", {
-            id: session.user.id,
-            nick: session.user.user_metadata.full_name,
-            email: session.user.email,
-            avatar: session.user.user_metadata.picture,
-            password: "",
-          });
+          await axios.post(
+            "https://gymapp-backend-production.up.railway.app/api/users/create",
+            {
+              id: session.user.id,
+              nick: session.user.user_metadata.full_name,
+              email: session.user.email,
+              avatar: session.user.user_metadata.picture,
+              password: "",
+            }
+          );
           fullUser = await fetchUserDetails(session.user.id);
         }
         setUser(fullUser);

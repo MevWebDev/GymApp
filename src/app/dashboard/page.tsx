@@ -50,7 +50,7 @@ const DashboardSettings = () => {
 
     try {
       const profileResponse = await axios.patch(
-        "http://localhost:3001/api/users/update",
+        "https://gymapp-backend-production.up.railway.app/api/users/update",
         {
           id: user?.id,
           nick,

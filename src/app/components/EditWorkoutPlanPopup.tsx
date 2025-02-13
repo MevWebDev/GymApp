@@ -73,7 +73,9 @@ const EditWorkoutPlanPopup: React.FC<EditWorkoutPlanPopupProps> = ({
   useEffect(() => {
     const fetchExercises = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/exercises");
+        const response = await axios.get(
+          "https://gymapp-backend-production.up.railway.app/api/exercises"
+        );
         setExerciseList(response.data);
       } catch (error) {
         console.error("Error fetching exercises:", error);
@@ -111,7 +113,7 @@ const EditWorkoutPlanPopup: React.FC<EditWorkoutPlanPopupProps> = ({
           })),
         };
         const response = await axios.patch(
-          `http://localhost:3001/api/workouts/${workoutPlan.id}`,
+          `https://gymapp-backend-production.up.railway.app/api/workouts/${workoutPlan.id}`,
           payload
         );
         window.location.reload();
