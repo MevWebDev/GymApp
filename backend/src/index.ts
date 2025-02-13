@@ -10,7 +10,7 @@ const WebSocket = require("ws");
 
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ port: process.env.PORT });
 
 const usersOnline = new Set();
 
