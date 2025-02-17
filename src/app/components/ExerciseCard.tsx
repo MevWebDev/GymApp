@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { Exercise } from "../../../backend/types";
+import type { Exercise } from "../../../shared/shared_types";
 import Link from "next/link";
 
 export default function ExerciseCard({ exercise }: { exercise: Exercise }) {

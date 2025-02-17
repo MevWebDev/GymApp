@@ -21,7 +21,7 @@ import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
-import { fullWorkoutPlan } from "../../../backend/types";
+import type { fullWorkoutPlan } from "../../../shared/shared_types";
 import EditIcon from "@mui/icons-material/Edit";
 
 const workoutPlanSchema = z.object({

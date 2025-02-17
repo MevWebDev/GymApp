@@ -16,7 +16,7 @@ import {
 
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { fullWorkoutPlan } from "../../../../../backend/src/types";
+import type { fullWorkoutPlan } from "../../../../../shared/shared_types";
 import Link from "next/link";
 import { useAuth } from "../../../contexts/AuthContext";
 import EditWorkoutPlanPopup from "../../../components/EditWorkoutPlanPopup";
@@ -134,28 +134,24 @@ export default function ExercisePage() {
     }
   };
 
-  //// filepath: /home/szymon/repos/projektprogramistyczny-MevWebDev/src/app/explore/workouts/[id]/page.tsx
   const exportToPdf = () => {
     const doc = new jsPDF();
 
-    // Title and workout info
     doc.setFontSize(20);
     doc.text("Workout Plan", 14, 20);
     doc.setFontSize(12);
     doc.text(workoutPlan.title, 14, 40);
     doc.text(workoutPlan.description || "null", 14, 50);
 
-    // Created by text with clickable link and underline
     const createdText = `Created by: ${workoutPlan.user.nick}`;
     doc.textWithLink(createdText, 14, 60, {
       url: `http://localhost:3000/explore/users/${workoutPlan.userId}`,
     });
     const createdTextWidth = doc.getTextWidth(createdText);
     doc.setLineWidth(0.5);
-    // Draw underline just below the text
+
     doc.line(14, 61, 14 + createdTextWidth, 61);
 
-    // Table for exercises
     const tableColumn = ["Exercise", "Sets", "Reps"];
     const tableRows = workoutPlan.exercises.map((exercise) => [
       exercise.exercise.name,
@@ -170,7 +166,6 @@ export default function ExercisePage() {
     });
     const finalY = (doc as any).lastAutoTable?.finalY || 70;
 
-    // GitHub link with underline
     const githubText = "My GitHub";
     const xPos = 14;
     const yPos = finalY + 10;

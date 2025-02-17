@@ -5,7 +5,7 @@ import { Container, Typography, Box } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 import WorkoutCard from "../components/WorkoutCard";
-import { fullWorkoutPlan } from "../../../backend/types";
+import type { fullWorkoutPlan } from "../../../shared/shared_types";
 
 export default function LibraryPage() {
   const { user } = useAuth();

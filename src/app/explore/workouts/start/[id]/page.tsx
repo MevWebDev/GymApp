@@ -4,10 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 
-import {
+import type {
   fullWorkoutPlan,
   WorkoutPlanExercise,
-} from "../../../../../../backend/types";
+} from "../../../../../../shared/shared_types";
 import {
   Box,
   Button,

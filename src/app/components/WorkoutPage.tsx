@@ -6,7 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ExerciseCard from "./ExerciseCard";
-import { Exercise } from "../../../backend/types";
+import type { Exercise } from "../../../shared/shared_types";
 
 export default function ExercisesPage() {
   const [search, setSearch] = useState("");

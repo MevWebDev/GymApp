@@ -11,7 +11,10 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useParams } from "next/navigation";
-import { completeUser, fullWorkoutPlan } from "../../../../../backend/types";
+import type {
+  completeUser,
+  fullWorkoutPlan,
+} from "../../../../../shared/shared_types";
 import WorkoutCard from "../../../components/WorkoutCard";
 import { useAuth } from "../../../contexts/AuthContext";
 import axios from "axios";

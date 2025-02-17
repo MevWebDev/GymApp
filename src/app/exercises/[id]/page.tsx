@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Exercise } from "../../../../backend/types";
+import type { Exercise } from "../../../../shared/shared_types";
 
 export default function ExercisePage() {
   const { id } = useParams();

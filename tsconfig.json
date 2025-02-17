@@ -33,7 +33,8 @@
     ".next/types/**/*.ts",
     "backend/scripts/updateGifs.js",
     "src/**/*",
-    "backend/tsconfig.json"
+    "backend/tsconfig.json",
+    "shared/**/*"
   ],
   "exclude": ["node_modules"]
 }

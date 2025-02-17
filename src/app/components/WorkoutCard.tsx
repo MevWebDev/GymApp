@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { fullWorkoutPlan } from "../../../backend/types";
+import type { fullWorkoutPlan } from "../../../shared/shared_types";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 

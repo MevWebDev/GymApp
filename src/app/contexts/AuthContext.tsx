@@ -7,7 +7,7 @@ import React, {
   ReactNode,
 } from "react";
 import { supabase } from "../../../backend/src/auth/supabaseClient";
-import { User as CustomUser } from "../../../backend/src/types";
+import type { User as CustomUser } from "../../../shared/shared_types";
 import axios from "axios";
 
 interface AuthContextType {

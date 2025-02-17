@@ -8,7 +8,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import axios from "axios";
 import WorkoutCard from "./WorkoutCard";
 import UserCard from "./UserCard";
-import { fullWorkoutPlan, User } from "../../../backend/types";
+import type { fullWorkoutPlan, User } from "../../../shared/shared_types";
 import Link from "next/link";
 
 export default function ExplorePage() {

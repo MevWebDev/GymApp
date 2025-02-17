@@ -14,7 +14,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { User } from "../../../backend/types";
+import type { User } from "../../../shared/shared_types";
 import Link from "next/link";
 
 interface FollowListPopupProps {

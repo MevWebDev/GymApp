@@ -1,4 +1,3 @@
-//// filepath: /home/szymon/repos/projektprogramistyczny-MevWebDev/src/app/contexts/SnackbarContext.tsx
 "use client";
 import React, { createContext, useContext, useState } from "react";
 import { Snackbar, Alert } from "@mui/material";

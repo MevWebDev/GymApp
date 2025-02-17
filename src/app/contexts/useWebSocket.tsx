@@ -1,4 +1,3 @@
-//// filepath: /home/szymon/repos/projektprogramistyczny-MevWebDev/src/app/contexts/useWebSocket.tsx
 import { useEffect, useRef, useState } from "react";
 import { useSnackbarContext } from "./SnackbarContext";
 import { Link } from "@mui/material";
@@ -25,7 +24,7 @@ const useWebSocket = (url: string) => {
 
       try {
         const data = JSON.parse(message);
-
+        console.log("Parsed data", data);
         if (data.type === "workout-notification") {
           showMessage(
             <>
