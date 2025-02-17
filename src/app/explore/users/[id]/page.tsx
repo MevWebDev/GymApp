@@ -90,7 +90,7 @@ export default function ExercisePage() {
   const handleFollow = async () => {
     if (!loggedUser || !user) return;
     try {
-      const response = await axios.post(
+      await axios.post(
         `https://gymapp-backend-production.up.railway.app/api/users/follow`,
         {
           followingId: user.id,
@@ -132,7 +132,7 @@ export default function ExercisePage() {
   const handleUnfollow = async () => {
     if (!loggedUser || !user) return;
     try {
-      const response = await axios.delete(
+      await axios.delete(
         `https://gymapp-backend-production.up.railway.app/api/users/unfollow`,
 
         {

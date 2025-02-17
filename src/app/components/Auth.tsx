@@ -105,11 +105,12 @@ const AuthComponent = () => {
         }
       } else if (authMode === "login") {
         try {
-          const { error } = await supabase.auth.signInWithPassword({
-            email: values.email,
-            password: values.password,
-          });
-          if (error) throw error;
+          axios.get(
+            "https://gymapp-backend-production.up.railway.app/api/users",
+            {
+              params: { email: values.email, password: values.password },
+            }
+          );
           showSnackbar("Logged in successfully!", "success");
         } catch (err: any) {
           showSnackbar(err.message, "error");

@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import prisma from "../prisma/prisma";
+import { supabase } from "../auth/supabaseClient";
 
 const router = Router();
 
@@ -183,6 +184,26 @@ router.post("/follow", async (req: Request, res: Response): Promise<void> => {
   } catch (error) {
     console.error("Error following user:", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.get("/login", async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return void res.status(400).json({ error: "Missing email or password." });
+  }
+
+  try {
+    await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    return void res.status(200);
+  } catch (error) {
+    console.error("Error logging in user:", error);
+    return void res.status(500).json({ error: "Internal server error" });
   }
 });
 
