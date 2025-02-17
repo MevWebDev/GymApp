@@ -10,7 +10,7 @@ const WebSocket = require("ws");
 
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ port: process.env.PORT });
+const wss = new WebSocket.Server({ server });
 
 const usersOnline = new Set();
 
@@ -61,12 +61,14 @@ app.use("/api/exercises", exerciseRouter);
 app.use("/api/workouts", workoutRouter);
 app.use("/api/users", userRouter);
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || 3001, () => {
   console.log(`Server is running`);
 });
 
 server.listen(process.env.PORT, () => {
-  console.log("WebSocket server started on ws://localhost:8081");
+  console.log(
+    `WebSocket server started on ws://localhost:${process.env.PORT || 8080}`
+  );
 });
 
 setInterval(async () => {
