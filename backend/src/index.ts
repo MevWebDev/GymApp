@@ -61,9 +61,9 @@ app.use("/api/exercises", exerciseRouter);
 app.use("/api/workouts", workoutRouter);
 app.use("/api/users", userRouter);
 
-app.listen(process.env.PORT || 3001, () => {
-  console.log(`Server is running on port ${process.env.PORT || 3001}`);
-});
+// app.listen(process.env.PORT || 3001, () => {
+//   console.log(`Server is running on port ${process.env.PORT || 3001}`);
+// });
 
 server.listen(process.env.PORT, () => {
   console.log(
