@@ -105,12 +105,11 @@ const AuthComponent = () => {
         }
       } else if (authMode === "login") {
         try {
-          axios.get(
-            "https://gymapp-backend-production.up.railway.app/api/users",
-            {
-              params: { email: values.email, password: values.password },
-            }
-          );
+          const { error } = await supabase.auth.signInWithPassword({
+            email: values.email,
+            password: values.password,
+          });
+          if (error) throw error;
           showSnackbar("Logged in successfully!", "success");
         } catch (err: any) {
           showSnackbar(err.message, "error");
@@ -137,9 +136,7 @@ const AuthComponent = () => {
   const handleGoogleSignIn = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: {
-        redirectTo: "https://gymapp-frontend-production.up.railway.app",
-      },
+      options: { redirectTo: "http://localhost:3000/" },
     });
     if (error) {
       showSnackbar(error.message, "error");
