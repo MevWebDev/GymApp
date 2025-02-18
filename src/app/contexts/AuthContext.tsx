@@ -40,7 +40,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const resetPassword = async (email: string) => {
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: "http://localhost:3000/dashboard?type=recovery",
+      redirectTo:
+        "https://gymapp-frontend-production.up.railway.app/dashboard?type=recovery",
     });
     if (error) {
       console.error("Error resetting password:", error);
