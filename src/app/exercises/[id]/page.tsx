@@ -11,6 +11,7 @@ import {
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { Exercise } from "../../../../shared/shared_types";
+import { BASE_URL } from "../../utils/utils";
 
 export default function ExercisePage() {
   const { id } = useParams();
@@ -21,9 +22,7 @@ export default function ExercisePage() {
     if (id) {
       const fetchExercise = async () => {
         try {
-          const response = await fetch(
-            `https://gymapp-backend-production.up.railway.app/api/exercises/${id}`
-          );
+          const response = await fetch(`${BASE_URL}/api/exercises/${id}`);
           if (!response.ok) {
             throw new Error("Failed to fetch exercise");
           }

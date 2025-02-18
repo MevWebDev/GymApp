@@ -17,6 +17,7 @@ import {
   Container,
 } from "@mui/material";
 import { useAuth } from "@/app/contexts/AuthContext";
+import { BASE_URL } from "@/app/utils/utils";
 
 interface WorkoutSet {
   id: number;
@@ -73,9 +74,7 @@ const WorkoutExecutionPage = () => {
 
     const fetchWorkoutData = async () => {
       try {
-        const response = await fetch(
-          `https://gymapp-backend-production.up.railway.app/api/workouts/${id}`
-        );
+        const response = await fetch(`${BASE_URL}/api/workouts/${id}`);
         if (!response.ok) throw new Error("Failed to fetch workout plan");
 
         const data: fullWorkoutPlan = await response.json();
@@ -185,7 +184,7 @@ const WorkoutExecutionPage = () => {
       };
 
       const response = await axios.post(
-        "https://gymapp-backend-production.up.railway.app/api/workouts/complete",
+        "${BASE_URL}/api/workouts/complete",
         payload,
         { headers: { "Content-Type": "application/json" } }
       );

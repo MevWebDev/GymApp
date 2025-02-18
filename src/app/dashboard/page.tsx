@@ -12,9 +12,10 @@ import {
   Alert,
 } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
-import { supabase } from "../../../backend/src/auth/supabaseClient";
+import { supabase } from "../utils/supabaseClient";
 import axios from "axios";
 import { redirect, useSearchParams } from "next/navigation";
+import { BASE_URL } from "../utils/utils";
 
 const DashboardSettings = () => {
   const { user, loading } = useAuth();
@@ -50,7 +51,7 @@ const DashboardSettings = () => {
 
     try {
       const profileResponse = await axios.patch(
-        "https://gymapp-backend-production.up.railway.app/api/users/update",
+        `${BASE_URL}/api/users/update`,
         {
           id: user?.id,
           nick,

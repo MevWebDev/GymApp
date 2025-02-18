@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "../../../backend/src/auth/supabaseClient";
+import { supabase } from "../utils/supabaseClient";
 import axios from "axios";
 import { useFormik } from "formik";
 import { z } from "zod";

@@ -10,6 +10,7 @@ import WorkoutCard from "./WorkoutCard";
 import UserCard from "./UserCard";
 import type { fullWorkoutPlan, User } from "../../../shared/shared_types";
 import Link from "next/link";
+import { BASE_URL } from "../utils/utils";
 
 export default function ExplorePage() {
   const pathname = usePathname();
@@ -24,12 +25,9 @@ export default function ExplorePage() {
     if (!view) return;
     setLoading(true);
     try {
-      const response = await axios.get(
-        `https://gymapp-backend-production.up.railway.app/api/${view}`,
-        {
-          params: { search },
-        }
-      );
+      const response = await axios.get(`${BASE_URL}/api/${view}`, {
+        params: { search },
+      });
       if (view === "users") setUsers(response.data);
       else if (view === "workouts") setWorkouts(response.data);
     } catch (err) {

@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ExerciseCard from "./ExerciseCard";
 import type { Exercise } from "../../../shared/shared_types";
+import { BASE_URL } from "../utils/utils";
 
 export default function ExercisesPage() {
   const [search, setSearch] = useState("");
@@ -17,12 +18,9 @@ export default function ExercisesPage() {
     const fetchExercises = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `https://gymapp-backend-production.up.railway.app/api/exercises`,
-          {
-            params: { search },
-          }
-        );
+        const response = await axios.get(`${BASE_URL}/api/exercises`, {
+          params: { search },
+        });
         setExercises(response.data);
       } catch (err) {
         console.error("Error fetching exercises:", err);

@@ -32,6 +32,8 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
+import { BASE_URL } from "../../../utils/utils";
+
 export default function ExercisePage() {
   const { id } = useParams();
   const router = useRouter();
@@ -49,9 +51,7 @@ export default function ExercisePage() {
     if (id) {
       const fetchWorkout = async () => {
         try {
-          const response = await fetch(
-            `https://gymapp-backend-production.up.railway.app/api/workouts/${id}`
-          );
+          const response = await fetch(`${BASE_URL}/api/workouts/${id}`);
           if (!response.ok) {
             throw new Error("Failed to fetch workout");
           }
@@ -81,13 +81,10 @@ export default function ExercisePage() {
   const handleSave = async () => {
     if (!loggedUser || !workoutPlan) return;
     try {
-      await axios.post(
-        "https://gymapp-backend-production.up.railway.app/api/workouts/save",
-        {
-          userId: loggedUser.id,
-          workoutPlanId: workoutPlan.id,
-        }
-      );
+      await axios.post(`${BASE_URL}/api/workouts/save`, {
+        userId: loggedUser.id,
+        workoutPlanId: workoutPlan.id,
+      });
 
       setSnackbar({
         open: true,
@@ -108,15 +105,12 @@ export default function ExercisePage() {
   const handleUnsave = async () => {
     if (!loggedUser || !workoutPlan) return;
     try {
-      await axios.delete(
-        "https://gymapp-backend-production.up.railway.app/api/workouts/save",
-        {
-          data: {
-            userId: loggedUser.id,
-            workoutPlanId: workoutPlan.id,
-          },
-        }
-      );
+      await axios.delete(`${BASE_URL}/api/workouts/save`, {
+        data: {
+          userId: loggedUser.id,
+          workoutPlanId: workoutPlan.id,
+        },
+      });
 
       setSnackbar({
         open: true,
@@ -311,9 +305,7 @@ export default function ExercisePage() {
               <Button
                 onClick={() => {
                   axios
-                    .delete(
-                      `https://gymapp-backend-production.up.railway.app/api/workouts/${workoutPlan.id}`
-                    )
+                    .delete(`${BASE_URL}/api/workouts/${workoutPlan.id}`)
                     .then(() => {
                       setSnackbar({
                         open: true,

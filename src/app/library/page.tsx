@@ -6,6 +6,7 @@ import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 import WorkoutCard from "../components/WorkoutCard";
 import type { fullWorkoutPlan } from "../../../shared/shared_types";
+import { BASE_URL } from "../utils/utils";
 
 export default function LibraryPage() {
   const { user } = useAuth();
@@ -18,12 +19,8 @@ export default function LibraryPage() {
       const fetchWorkouts = async () => {
         try {
           const [savedResponse, createdResponse] = await Promise.all([
-            axios.get(
-              `https://gymapp-backend-production.up.railway.app/api/users/${user.id}/saved-workouts`
-            ),
-            axios.get(
-              `https://gymapp-backend-production.up.railway.app/api/users/${user.id}/workouts`
-            ),
+            axios.get(`${BASE_URL}/api/users/${user.id}/saved-workouts`),
+            axios.get(`${BASE_URL}/api/users/${user.id}/workouts`),
           ]);
 
           setSavedWorkouts(savedResponse.data);

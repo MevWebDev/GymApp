@@ -22,6 +22,7 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "next/navigation";
+import { BASE_URL } from "../utils/utils";
 
 const workoutPlanSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -64,9 +65,7 @@ const CreateWorkoutPlanPopup = () => {
   useEffect(() => {
     const fetchExercises = async () => {
       try {
-        const response = await axios.get(
-          "https://gymapp-backend-production.up.railway.app/api/exercises"
-        );
+        const response = await axios.get(`${BASE_URL}/api/exercises`);
         setExerciseList(response.data);
       } catch (error) {
         console.error("Error fetching exercises:", error);
@@ -105,10 +104,7 @@ const CreateWorkoutPlanPopup = () => {
           })),
         };
 
-        const response = await axios.post(
-          "https://gymapp-backend-production.up.railway.app/api/workouts",
-          payload
-        );
+        const response = await axios.post(`${BASE_URL}/api/workouts`, payload);
 
         router.push(`/explore/workouts/${response.data.id}`);
         setSnackbar({

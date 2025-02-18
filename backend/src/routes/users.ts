@@ -187,7 +187,7 @@ router.post("/follow", async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-router.get("/login", async (req: Request, res: Response) => {
+router.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -195,16 +195,53 @@ router.get("/login", async (req: Request, res: Response) => {
   }
 
   try {
-    await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      console.log(error);
+      return void res.status(400).json({ error: error.message });
+    }
+
+    console.log("User logged in successfully.");
+    return void res.status(200).json(data);
+  } catch (error) {
+    console.error("Error logging in user:", error);
+    return void res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.post("/register", async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return void res.status(400).json({ error: "Missing email or password." });
+  }
+
+  try {
+    await supabase.auth.signUp({
       email: email,
       password: password,
     });
 
     return void res.status(200);
   } catch (error) {
-    console.error("Error logging in user:", error);
+    console.error("Error registering user:", error);
     return void res.status(500).json({ error: "Internal server error" });
   }
+});
+
+router.get("/login/google", async (req: Request, res: Response) => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: { redirectTo: "http://localhost:3000/" },
+  });
+  if (error) {
+    return void res.status(500).json({ error: "Internal server error" });
+  }
+  return void res.status(200);
 });
 
 router.delete("/unfollow", async (req: Request, res: Response) => {

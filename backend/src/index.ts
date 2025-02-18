@@ -65,7 +65,7 @@ app.use("/api/users", userRouter);
 //   console.log(`Server is running on port ${process.env.PORT || 3001}`);
 // });
 
-server.listen(process.env.PORT, () => {
+server.listen(process.env.PORT || 8080, () => {
   console.log(
     `WebSocket server started on ws://localhost:${process.env.PORT || 8080}`
   );

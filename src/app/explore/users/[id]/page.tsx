@@ -19,6 +19,7 @@ import WorkoutCard from "../../../components/WorkoutCard";
 import { useAuth } from "../../../contexts/AuthContext";
 import axios from "axios";
 import FollowListPopup from "../../../components/FollowListPopup";
+import { BASE_URL } from "../../../utils/utils";
 
 export default function ExercisePage() {
   const { id } = useParams();
@@ -42,12 +43,8 @@ export default function ExercisePage() {
     if (id) {
       const fetchUser = async () => {
         try {
-          const response1 = await fetch(
-            `https://gymapp-backend-production.up.railway.app/api/users/${id}`
-          );
-          const response2 = await fetch(
-            `https://gymapp-backend-production.up.railway.app/api/users/${id}/workouts`
-          );
+          const response1 = await fetch(`${BASE_URL}/api/users/${id}`);
+          const response2 = await fetch(`${BASE_URL}/api/users/${id}/workouts`);
           if (!response1.ok || !response2.ok) {
             throw new Error("Failed to fetch data");
           }
@@ -90,13 +87,10 @@ export default function ExercisePage() {
   const handleFollow = async () => {
     if (!loggedUser || !user) return;
     try {
-      await axios.post(
-        `https://gymapp-backend-production.up.railway.app/api/users/follow`,
-        {
-          followingId: user.id,
-          followerId: loggedUser.id,
-        }
-      );
+      await axios.post(`${BASE_URL}/api/users/follow`, {
+        followingId: user.id,
+        followerId: loggedUser.id,
+      });
 
       setSnackbar({
         open: true,
@@ -133,7 +127,7 @@ export default function ExercisePage() {
     if (!loggedUser || !user) return;
     try {
       await axios.delete(
-        `https://gymapp-backend-production.up.railway.app/api/users/unfollow`,
+        `${BASE_URL}/api/users/unfollow`,
 
         {
           data: {
