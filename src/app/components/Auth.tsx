@@ -137,7 +137,9 @@ const AuthComponent = () => {
   const handleGoogleSignIn = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: "http://localhost:3000/" },
+      options: {
+        redirectTo: "https://gymapp-frontend-production.up.railway.app",
+      },
     });
     if (error) {
       showSnackbar(error.message, "error");

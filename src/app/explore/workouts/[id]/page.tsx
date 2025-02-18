@@ -139,7 +139,7 @@ export default function ExercisePage() {
 
     const createdText = `Created by: ${workoutPlan.user.nick}`;
     doc.textWithLink(createdText, 14, 60, {
-      url: `http://localhost:3000/explore/users/${workoutPlan.userId}`,
+      url: `https://gymapp-frontend-production.up.railway.app/explore/users/${workoutPlan.userId}`,
     });
     const createdTextWidth = doc.getTextWidth(createdText);
     doc.setLineWidth(0.5);

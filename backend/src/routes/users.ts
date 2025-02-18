@@ -233,17 +233,6 @@ router.post("/register", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/login/google", async (req: Request, res: Response) => {
-  const { error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: { redirectTo: "http://localhost:3000/" },
-  });
-  if (error) {
-    return void res.status(500).json({ error: "Internal server error" });
-  }
-  return void res.status(200);
-});
-
 router.delete("/unfollow", async (req: Request, res: Response) => {
   const { followerId, followingId } = req.body;
 
