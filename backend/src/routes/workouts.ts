@@ -221,35 +221,4 @@ router.post("/save", async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-router.post("/complete", async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { userId, workoutPlanId, exercises } = req.body;
-    const completedWorkout = await prisma.completedWorkout.create({
-      data: {
-        user: { connect: { id: userId } },
-        planId: Number(workoutPlanId),
-        date: new Date(),
-      },
-    });
-
-    const completedWorkoutExercises =
-      await prisma.completedWorkoutExercise.createMany({
-        data: exercises.map((exercise: any) => ({
-          reps: exercise.reps,
-          weight: exercise.weight || 0,
-          exerciseId: exercise.exerciseId,
-          completedWorkoutId: completedWorkout.id,
-        })),
-      });
-
-    res.status(201).json({
-      completedWorkout,
-      completedWorkoutExercises,
-    });
-  } catch (error) {
-    console.error("Error starting workout plan:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
 export default router;

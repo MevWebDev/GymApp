@@ -22,7 +22,6 @@ import { useAuth } from "../../../contexts/AuthContext";
 import EditWorkoutPlanPopup from "../../../components/EditWorkoutPlanPopup";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
@@ -223,27 +222,6 @@ export default function ExercisePage() {
           </Link>
         </Box>
         <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-          {loggedUser && (
-            <Link
-              href={`/explore/workouts/start/${workoutPlan.id}`}
-              passHref
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Button variant="contained" color="success">
-                <Typography
-                  sx={{
-                    display: { xs: "none", md: "inline-block" },
-                    color: "secondary.main",
-                  }}
-                >
-                  Start
-                </Typography>
-                <PlayArrowIcon
-                  sx={{ display: { xs: "inline-block", md: "none" } }}
-                />
-              </Button>
-            </Link>
-          )}
           {loggedUser && loggedUser?.id !== workoutPlan.userId && (
             <>
               {isSaved ? (
