@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const prisma_1 = __importDefault(require("../prisma/prisma"));
+const supabaseClient_1 = require("../auth/supabaseClient");
 const router = (0, express_1.Router)();
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -168,6 +169,45 @@ router.post("/follow", (req, res) => __awaiter(void 0, void 0, void 0, function*
     catch (error) {
         console.error("Error following user:", error);
         res.status(500).json({ error: "Internal server error" });
+    }
+}));
+router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return void res.status(400).json({ error: "Missing email or password." });
+    }
+    try {
+        const { data, error } = yield supabaseClient_1.supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        });
+        if (error) {
+            console.log(error);
+            return void res.status(400).json({ error: error.message });
+        }
+        console.log("User logged in successfully.");
+        return void res.status(200).json(data);
+    }
+    catch (error) {
+        console.error("Error logging in user:", error);
+        return void res.status(500).json({ error: "Internal server error" });
+    }
+}));
+router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return void res.status(400).json({ error: "Missing email or password." });
+    }
+    try {
+        yield supabaseClient_1.supabase.auth.signUp({
+            email: email,
+            password: password,
+        });
+        return void res.status(200);
+    }
+    catch (error) {
+        console.error("Error registering user:", error);
+        return void res.status(500).json({ error: "Internal server error" });
     }
 }));
 router.delete("/unfollow", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

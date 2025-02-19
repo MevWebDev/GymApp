@@ -209,32 +209,4 @@ router.post("/save", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(500).json({ error: "Internal server error" });
     }
 }));
-router.post("/complete", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { userId, workoutPlanId, exercises } = req.body;
-        const completedWorkout = yield prisma_1.default.completedWorkout.create({
-            data: {
-                user: { connect: { id: userId } },
-                planId: Number(workoutPlanId),
-                date: new Date(),
-            },
-        });
-        const completedWorkoutExercises = yield prisma_1.default.completedWorkoutExercise.createMany({
-            data: exercises.map((exercise) => ({
-                reps: exercise.reps,
-                weight: exercise.weight || 0,
-                exerciseId: exercise.exerciseId,
-                completedWorkoutId: completedWorkout.id,
-            })),
-        });
-        res.status(201).json({
-            completedWorkout,
-            completedWorkoutExercises,
-        });
-    }
-    catch (error) {
-        console.error("Error starting workout plan:", error);
-        res.status(500).json({ error: "Internal server error" });
-    }
-}));
 exports.default = router;

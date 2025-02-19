@@ -64,7 +64,7 @@ app.use("/api/users", users_1.default);
 // app.listen(process.env.PORT || 3001, () => {
 //   console.log(`Server is running on port ${process.env.PORT || 3001}`);
 // });
-server.listen(process.env.PORT, () => {
+server.listen(process.env.PORT || 8080, () => {
     console.log(`WebSocket server started on ws://localhost:${process.env.PORT || 8080}`);
 });
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
