@@ -77,7 +77,7 @@ const AuthComponent = () => {
           if (error) throw error;
 
           const response = await axios.get(
-            "https://gymapp-backend-production.up.railway.app/api/users",
+            "https://gymapp-backend-production-b174.up.railway.app/api/users",
             {
               params: { id: data?.user?.id },
             }
@@ -87,7 +87,7 @@ const AuthComponent = () => {
             showSnackbar("User already exists. Please log in.", "error");
           } else {
             await axios.post(
-              "https://gymapp-backend-production.up.railway.app/api/users/create",
+              "https://gymapp-backend-production-b174.up.railway.app/api/users/create",
               {
                 id: data?.user?.id,
                 nick: values.nick,
