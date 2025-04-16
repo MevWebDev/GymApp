@@ -8,7 +8,7 @@ const Chat = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [inputMessage, setInputMessage] = useState("");
   const { messages, sendMessage, onlineUsers } = useWebSocket(
-    "wss://gymapp-backend-production.up.railway.app"
+    "wss://gymapp-backend-production-b174.up.railway.app"
   );
   const { user } = useAuth();
 

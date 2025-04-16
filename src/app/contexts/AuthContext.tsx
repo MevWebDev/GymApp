@@ -25,7 +25,7 @@ interface AuthProviderProps {
 const fetchUserDetails = async (userId: string): Promise<CustomUser | null> => {
   try {
     const response = await axios.get(
-      `https://gymapp-backend-production.up.railway.app/api/users/${userId}`
+      `https://gymapp-backend-production-b174.up.railway.app/api/users/${userId}`
     );
     return response.data;
   } catch (error) {
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         let fullUser = await fetchUserDetails(session.user.id);
         if (!fullUser) {
           await axios.post(
-            "https://gymapp-backend-production.up.railway.app/api/users/create",
+            "https://gymapp-backend-production-b174.up.railway.app/api/users/create",
             {
               id: session.user.id,
               nick: session.user.user_metadata.full_name,
